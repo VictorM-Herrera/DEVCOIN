@@ -6,11 +6,10 @@ const port = process.env.PORT || 3010;
 const cors = require("cors");
 
 const errorHandler = require("./middlewares/errorHandler");
-const indexRoutes = require("./routes/index.route.js");
+const indexRoutes = require("./routes/indexRoute.js");
 
 //mysql connections:
 require("./config/connections");
-const router = require("./route/index.route");
 
 //Middlewares
 server.use(cors());
