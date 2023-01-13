@@ -11,7 +11,7 @@ const User = sequelize.define('users',{
     },
     first_name: Sequelize.STRING,
     last_name: Sequelize.STRING,
-    img:{
+    image:{
         type: Sequelize.TEXT,
         defaultValue:null
     },
