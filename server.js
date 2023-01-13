@@ -7,6 +7,7 @@ const cors = require("cors");
 // const errorHandler = require("./middlewares/errorHandler");
 // const indexRoutes = require("./routes/index.route.js");
 
+
 //mysql connections:
 require("./config/connections");
 
