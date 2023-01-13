@@ -8,8 +8,7 @@ const cors = require("cors");
 // const indexRoutes = require("./routes/index.route.js");
 
 //mysql connections:
-// require("./config/connections");
-// const router = require("./route/index.route");
+require("./config/connections");
 
 //Middlewares
 server.use(cors());
