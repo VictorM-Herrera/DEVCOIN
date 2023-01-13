@@ -20,6 +20,9 @@ server.use(express.urlencoded({ extended: true }));
 // server.use(errorHandler);
 // server.use(express.static(__dirname));
 // server.use("/", indexRoutes);
+server.get('/', (req,res) => {
+  res.send({msg: 'Hola desde el internet'})
+})
 
 server.listen(port, () => {
   console.log(`Server in the port: ${port}`);
