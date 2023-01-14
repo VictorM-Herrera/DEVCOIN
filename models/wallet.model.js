@@ -18,15 +18,15 @@ export const Wallet = sequelize.define(
   }
 );
 
-Wallet.hasMany(Coins, {
-  foreignKey: "amaountId",
-  sourceKey: "wallet_id",
-});
+// Wallet.hasMany(Coins, {
+//   foreignKey: "amaountId",
+//   sourceKey: "wallet_id",
+// });
 
-Coins.belongsTo(Wallet, {
-  foreignKey: "amaountId",
-  targetKey: "wallet_id",
-});
+// Coins.belongsTo(Wallet, {
+//   foreignKey: "amaountId",
+//   targetKey: "wallet_id",
+// });
 
 // await Wallet.sync()
 // await Coins.sync()
