@@ -8,7 +8,7 @@ const userController = {};
 //ESPERAR A QUE SE DECIDAN LOS ENDPOINTS, (HABLAR CON LOS 2 EQUIPOS(?))
 //Funciones Hexcode:
 function generateHexCode(){
-    return crypto.randomBytes(4).toString('hex');
+    return crypto.randomBytes(5).toString('hex');
 }
 function isHexCodeUnique(hex_code)
 {
