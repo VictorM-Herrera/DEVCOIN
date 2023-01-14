@@ -1,41 +1,55 @@
 //const Joi = require('joi');
-const Sequelize = require('sequelize');
-const sequelize = require('../config/mysql.config');
+const Sequelize = require("sequelize");
+const sequelize = require("../config/mysql.config");
+//const { Wallet } = require('./wallet.model');
 //const validateRequest = require('../middlewares/validateRequest');
 
-const User = sequelize.define('users',{
-    user_id:{
-        type: Sequelize.INTEGER,
-        primaryKey: true,
-        autoIncrement: true
+const User = sequelize.define(
+  "users",
+  {
+    user_id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
     },
     first_name: Sequelize.STRING,
     last_name: Sequelize.STRING,
-    img:{
-        type: Sequelize.TEXT,
-        defaultValue:null
+    img: {
+      type: Sequelize.TEXT,
+      defaultValue: null,
     },
-    email:{
-        type: Sequelize.STRING,
-        unique:true,
-        validate:{
-            isEmail:{
-                msg:"Debe ser un email valido",
-            }
-        }
+    email: {
+      type: Sequelize.STRING,
+      unique: true,
+      validate: {
+        isEmail: {
+          msg: "Debe ser un email valido",
+        },
+      },
     },
-    password:  Sequelize.STRING,
+    password: Sequelize.STRING,
     hex_code: Sequelize.STRING,
     phone: {
-        type: Sequelize.STRING,
-        unique:true,
+      type: Sequelize.STRING,
+      unique: true,
     },
-    status:{
-        type: Sequelize.BOOLEAN,
-        defaultValue: true
-    }
+    status: {
+      type: Sequelize.BOOLEAN,
+      defaultValue: true,
+    },
+  },
+  { timestamps: false }
+);
 
-}, {timestamps:false})
+// User.hasOne(Wallet, {
+//     foreignKey: "hex_code",
+//     sourceKey: "user_id",
+//   })
+
+//   Wallet.belongsTo(User, {
+//     foreignKey: "hex_code",
+//     targetKey: "user_id",
+//   })
 
 /**
  * 
@@ -71,5 +85,5 @@ const User = sequelize.define('users',{
  */
 
 module.exports = {
-    User,
-}
+  User,
+};
