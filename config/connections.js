@@ -33,7 +33,7 @@ User.sync();
 Wallet.sync();
 Coins.sync();
 Rol.sync();
-Transaction.sync({force: true});
+Transaction.sync();
 
 DBMysql.sync()
   .then(() => console.log("Conectado con exito a PlanetScale"))
