@@ -16,6 +16,13 @@ const Coins = sequelize.define(
       type: Sequelize.STRING,
       unique: true,
     },
+    symbol: {
+      type: Sequelize.STRING,
+      unique: true,
+    },
+    image: {
+      type: Sequelize.TEXT,
+    },
     amount: {
       type: Sequelize.DECIMAL,
     },
