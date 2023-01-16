@@ -35,18 +35,19 @@ userController.getAllUsers = async (req,res) => {
 }
 
 userController.createUser = async (req,res) => {
-    try {
-        let urlImage;
-        if (req.file === undefined) {
-            urlImage = null;
-        }else{
-            const url = req.protocol + '://' + req.get('host');
-            urlImage = url + '/public/' + req.file.filename
-        }
+    // try {
+    //     let urlImage;
+    //     if (req.file === undefined) {
+    //         urlImage = null;
+    //     }else{
+    //         const url = req.protocol + '://' + req.get('host');
+    //         urlImage = url + '/public/' + req.file.filename
+    //     }
+    try{
         const modelData = {
             first_name: req.body.first_name,
             last_name: req.body.last_name,
-            image: urlImage,
+            image: req.body.image,
             email: req.body.email,
             password: bcrypt.hashSync(req.body.password, 10),
             hex_code: "",
