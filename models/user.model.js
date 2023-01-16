@@ -1,7 +1,7 @@
-//const Joi = require('joi');
+const Joi = require('joi');
 const Sequelize = require('sequelize');
 const sequelize = require('../config/mysql.config');
-//const validateRequest = require('../middlewares/validateRequest');
+const validateRequest = require('../middlewares/validateRequest');
 
 const User = sequelize.define('users',{
     user_id:{
@@ -11,7 +11,7 @@ const User = sequelize.define('users',{
     },
     first_name: Sequelize.STRING,
     last_name: Sequelize.STRING,
-    img:{
+    image:{
         type: Sequelize.TEXT,
         defaultValue:null
     },
@@ -26,9 +26,17 @@ const User = sequelize.define('users',{
     },
     password:  Sequelize.STRING,
     hex_code: Sequelize.STRING,
+    address: Sequelize.STRING,
     phone: {
         type: Sequelize.STRING,
         unique:true,
+    },
+    rol_name:{
+        type: Sequelize.INTEGER,
+        references:{
+            model: 'roles',
+            key: 'rol_id'
+        }
     },
     status:{
         type: Sequelize.BOOLEAN,
@@ -37,20 +45,18 @@ const User = sequelize.define('users',{
 
 }, {timestamps:false})
 
-/**
- * 
- * const ValidateUser = (req,res,next) => {
+const ValidateUser = (req,res,next) => {
     const schema = Joi.object({
-        first_name: Joi.string().min(5).max(100).required()
+        first_name: Joi.string().min(2).max(100).required()
         .messages({
             'string.empty': "Ingresa el Nombre",
-            'string.min': "El nombre debe ser mayor a 5 caracteres",
+            'string.min': "El nombre debe ser mayor a 2 caracteres",
             'any.required': "Ingresa el Nombre"
         }),
-        last_name: Joi.string().min(5).max(100).required()
+        last_name: Joi.string().min(2).max(100).required()
         .messages({
             'string.empty': "Ingresa el Apellido",
-            'string.min': "El Apellido debe ser mayor a 5 caracteres",
+            'string.min': "El Apellido debe ser mayor a 2 caracteres",
             'any.required': "Ingresa el Apellido"
         }),
         email:Joi.string().email().required()
@@ -58,18 +64,30 @@ const User = sequelize.define('users',{
             'email.empty': "Ingresa el email",
             'any.required': "Ingresa el email"
         }),
-        password: Joi.string().min(5).max(100).required()
+        password: Joi.string().min(7).max(100).required()
         .messages({
             'password.empty': "Ingresa el password",
              'password.min': "El password debe ser mayor a 5 caracteres",
             'any.required': "Ingresa el password"
         }),
+        phone: Joi.string().min(8).max(100).required()
+        .messages({
+            'phone.empty': "Ingresa el numero de telefono",
+            'phone.min': "El numero debe ser mayor a 8 digitos",
+            'any.required': "Ingresa el numero de telefono"
+        }),
+        address: Joi.string().min(5).max(100)
+        .messages({
+            'address.empty': "Ingresa una dirección",
+            'address.min': "La dirección debe ser mayor a 5 caracteres"
+        })
 
     });
     validateRequest(req,res,next,schema);
 }
- */
+
 
 module.exports = {
     User,
+    ValidateUser,
 }
