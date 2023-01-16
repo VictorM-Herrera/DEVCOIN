@@ -4,37 +4,37 @@ const Joi = require('joi');
 
 const Transaction = sequelize.define("Transactions", {
 
-  transaction_id: {
+  transaction_id: {         // ID DE TRANSACCION
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-  },
+  }, 
 
-  transaction_date: {
+  transaction_date: {       // FECHA DE TRANSACCION 
     type: Sequelize.DATE,
     defaultValue: Sequelize.fn('NOW'),
-  },
+  }, 
 
-  transmitter_hexcode: {
+  sender_hexcode: {         // CODIGO DEL EMISOR 
     type: Sequelize.STRING,
   },
 
-  receiver_hexcode: {
+  receiver_hexcode: {       // CODIGO DEL RECEPTOR
     type: Sequelize.STRING,
   },
 
-  amount: {
+  amount: {                 // CANTIDAD - TIPO DE VARIABLE : DECIMAL
     type: Sequelize.DECIMAL,
   },
 
-  type_coin: {
+  type_coin: {              // TIPO DE CRYTOMONEDA
     type: Sequelize.STRING,
   },
 },{timestamps:false});
 
 const ValidateTransaction = (req,res,next) => {
     const schema = Joi.object({
-        transmitter_hexcode: Joi.string().required()
+        sender_hexcode: Joi.string().required()
         .messages({
             'string.empty': "Ingresa al Emisor",
             'any.required': "Ingresa al Emisor"
