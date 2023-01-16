@@ -1,7 +1,7 @@
 //const Joi = require('joi');
 const Sequelize = require("sequelize");
 const sequelize = require("../config/mysql.config");
-//const { Wallet } = require('./wallet.model');
+//const { Wallet } = require("./wallet.model");
 //const validateRequest = require('../middlewares/validateRequest');
 
 const User = sequelize.define(
@@ -40,16 +40,6 @@ const User = sequelize.define(
   },
   { timestamps: false }
 );
-
-// User.hasOne(Wallet, {
-//     foreignKey: "hex_code",
-//     sourceKey: "user_id",
-//   })
-
-//   Wallet.belongsTo(User, {
-//     foreignKey: "hex_code",
-//     targetKey: "user_id",
-//   })
 
 /**
  * 

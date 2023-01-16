@@ -4,7 +4,7 @@ const sequelize = require("../config/mysql.config");
 //const validateRequest = require('../middlewares/validateRequest');
 //const Joi = require('joi');
 
-export const Coins = sequelize.define(
+const Coins = sequelize.define(
   "Coins",
   {
     coin_id: {
@@ -24,3 +24,7 @@ export const Coins = sequelize.define(
     timestamps: true,
   }
 );
+
+module.exports = {
+  Coins,
+};
