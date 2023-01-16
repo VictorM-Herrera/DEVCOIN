@@ -1,7 +1,7 @@
 const { Wallet } = require("../models/wallet.model");
 const walletController = {};
 
-walletController.getWallet = async (req, res) => {
+walletController.getAllWallets = async (req, res) => {
   const response = await Wallet.findAll()
     .then((data) => {
       const res = { error: false, data: data };
