@@ -27,19 +27,24 @@ const User = sequelize.define(
       },
     },
     password: Sequelize.STRING,
-    hex_code: Sequelize.STRING,
+    hex_code: {
+      type: Sequelize.STRING,
+      unique:true,
+      allowNull:false,
+    },
+
     address: Sequelize.STRING,
     phone: {
       type: Sequelize.STRING,
       unique: true,
     },
-    // rol_name:{
-    //     type: Sequelize.INTEGER,
-    //     references:{
-    //         model: 'roles',
-    //         key: 'rol_id'
-    //     }
-    // },
+    rol_id:{
+        type: Sequelize.INTEGER,
+        references:{
+            model: 'roles',
+            key: 'rol_id'
+        }
+    },
     status: {
       type: Sequelize.BOOLEAN,
       defaultValue: true,
