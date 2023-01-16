@@ -3,6 +3,7 @@ const { User } = require("../models/user.model");
 const { Rol } = require("../models/rol.model");
 const { Wallet } = require("../models/wallet.model");
 const { Coins } = require("../models/coins.model");
+const { Transaction } = require("../models/transactions.model");
 
 // User.sync({force: true}).then(()=> {
 //   console.log('tabla de usuarios eliminada y vuelta a crear');
@@ -32,6 +33,7 @@ User.sync();
 Wallet.sync();
 Coins.sync();
 Rol.sync();
+Transaction.sync({force: true});
 
 DBMysql.sync()
   .then(() => console.log("Conectado con exito a PlanetScale"))

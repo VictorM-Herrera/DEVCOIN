@@ -12,7 +12,7 @@ const Transaction = sequelize.define("Transactions", {
 
   transaction_date: {
     type: Sequelize.DATE,
-    defaultValue: DataTypes.NOW,
+    defaultValue: Sequelize.fn('NOW'),
   },
 
   transmitter_hexcode: {
