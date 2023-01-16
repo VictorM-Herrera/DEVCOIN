@@ -1,8 +1,8 @@
 const express = require("express");
-const router = express.Router();
+const wallet = express.Router();
 const walletController = require("../controllers/wallet.controller");
 
-router.get("/", walletController.getAllWallets);
-router.get("/:hex_code", walletController.getWalletByHexacode);
+wallet.get("/", walletController.getAllWallets);
+wallet.get("/:hex_code", walletController.getWalletByHexacode);
 
-module.exports = router;
+module.exports = wallet;
