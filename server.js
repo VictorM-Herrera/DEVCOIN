@@ -3,7 +3,7 @@ const express = require("express");
 const server = express();
 const port = process.env.PORT || 3010;
 const cors = require("cors");
-const RouterTransaction = require('./routes/transaction.routes')
+const RouterTransaction = require("./routes/transactionRoute");
 
 //test:
 // const userController = require('./controllers/user.controller');
@@ -12,7 +12,6 @@ const RouterTransaction = require('./routes/transaction.routes')
 
 // const errorHandler = require("./middlewares/errorHandler");
 // const indexRoutes = require("./routes/index.route.js");
-
 
 //mysql connections:
 require("./config/connections");
