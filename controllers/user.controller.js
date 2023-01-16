@@ -51,7 +51,8 @@ userController.createUser = async (req,res) => {
             password: bcrypt.hashSync(req.body.password, 10),
             hex_code: "",
             address: req.body.address,
-            phone: req.body.phone
+            phone: req.body.phone,
+            rol_name: req.body.rol_name
         }
         let hex_code = generateHexCode();
         isHexCodeUnique(hex_code)

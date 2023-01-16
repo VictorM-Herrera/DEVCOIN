@@ -31,6 +31,13 @@ const User = sequelize.define('users',{
         type: Sequelize.STRING,
         unique:true,
     },
+    rol_name:{
+        type: Sequelize.INTEGER,
+        references:{
+            model: 'roles',
+            key: 'rol_id'
+        }
+    },
     status:{
         type: Sequelize.BOOLEAN,
         defaultValue: true
