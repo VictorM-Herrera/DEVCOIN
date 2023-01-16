@@ -4,37 +4,35 @@ const { Rol } = require("../models/rol.model");
 const { Wallet } = require("../models/wallet.model");
 const { Coins } = require("../models/coins.model");
 const { Transaction } = require("../models/transactions.model");
+const sequelize = require("./mysql.config");
 
 // User.sync({force: true}).then(()=> {
 //   console.log('tabla de usuarios eliminada y vuelta a crear');
 // })
 
-User.hasOne(Wallet, {
-  foreignKey: "hex_code",
-  sourceKey: "user_id",
-});
 
-Wallet.belongsTo(User, {
-  foreignKey: "hex_code",
-  targetKey: "user_id",
-});
 
 Wallet.hasMany(Coins, {
-  foreignKey: "amount",
+  foreignKey: "walletId",
   sourceKey: "wallet_id",
 });
 
 Coins.belongsTo(Wallet, {
-  foreignKey: "amount",
+  foreignKey: "walletId",
   targetKey: "wallet_id",
 });
 
+
+Rol.sync();
 User.sync();
 Wallet.sync();
 Coins.sync();
-Rol.sync();
 Transaction.sync();
 
+// sequelize.drop().then(() =>{
+//   console.log('todo fue eliminado');
+// })
+
 DBMysql.sync()
-  .then(() => console.log("Conectado con exito a PlanetScale"))
+  .then(() => console.log("Conectado con exito a Railway"))
   .catch((err) => console.log(err));
