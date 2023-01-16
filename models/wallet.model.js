@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/mysql.config");
-//const { Coins } = require("./coins.model");
 //const validateRequest = require('../middlewares/validateRequest');
 //const Joi = require('joi');
 
@@ -11,6 +10,13 @@ const Wallet = sequelize.define(
       type: Sequelize.INTEGER,
       primaryKey: true,
       autoIncrement: true,
+    },
+    hexacode_user:{
+      type: Sequelize.STRING,
+      references:{
+          model: 'users',
+          key: 'hex_code',
+      }
     },
   },
   {
