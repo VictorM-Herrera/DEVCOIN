@@ -26,8 +26,8 @@ const User = sequelize.define(
     password: Sequelize.STRING,
     hex_code: {
       type: Sequelize.STRING,
-      unique:true,
-      allowNull:false,
+      unique: true,
+      allowNull: false,
     },
 
     address: Sequelize.STRING,
@@ -35,20 +35,20 @@ const User = sequelize.define(
       type: Sequelize.STRING,
       unique: true,
     },
-    rol_id:{
-        type: Sequelize.INTEGER,
-        references:{
-            model: 'roles',
-            key: 'rol_id'
-        }
+    rol_id: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: "roles",
+        key: "rol_id",
+      },
     },
-    balance:{
+    balance: {
       type: Sequelize.DECIMAL,
-      defaultValue: 2000
+      defaultValue: 2000,
     },
-    verified_user:{
+    verified_user: {
       type: Sequelize.BOOLEAN,
-      defaultValue:false,
+      defaultValue: false,
     },
     status: {
       type: Sequelize.BOOLEAN,
@@ -90,6 +90,9 @@ const ValidateUser = (req, res, next) => {
     }),
     image: Joi.string().required().messages({
       "any.required": "Ingresa una imagen",
+    }),
+    link: Joi.string().required().messages({
+      "any.required": "Ingresa un link",
     }),
   });
   validateRequest(req, res, next, schema);

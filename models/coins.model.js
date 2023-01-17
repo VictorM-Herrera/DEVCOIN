@@ -3,6 +3,7 @@ const sequelize = require("../config/mysql.config");
 
 const validateRequest = require("../middlewares/validateRequest");
 const Joi = require("joi");
+const { INTEGER } = require("sequelize");
 
 const Coins = sequelize.define(
   "Coins",
@@ -50,6 +51,9 @@ const ValidateCoins = (req, res, next) => {
     }),
     amount: Joi.number().required().messages({
       "any.required": "Ingresa un importe valido",
+    }),
+    walletId: Joi.number().integer().required().messages({
+      "any.required": "Ingresa un id valido",
     }),
   });
   validateRequest(req, res, next, schema);

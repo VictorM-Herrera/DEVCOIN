@@ -44,10 +44,10 @@ coinsController.getAllCoins = async (req, res) => {
   res.json(response);
 };
 
-coinsController.getByCoinName = async (req, res) => {
+coinsController.getByCoinSymbol = async (req, res) => {
   try {
-    const { name } = req.params;
-    const response = await Coins.findOne({ where: { name: name } })
+    const { symbol } = req.params;
+    const response = await Coins.findOne({ where: { symbol: symbol } })
       .then((data) => {
         const res = { error: false, data: data };
         return res;
@@ -64,9 +64,9 @@ coinsController.getByCoinName = async (req, res) => {
 
 coinsController.UpdateCoins = async (req, res) => {
   try {
-    const { name } = req.params;
+    const { symbol } = req.params;
     const response = await Coins.update(req.body, {
-      where: { name: name },
+      where: { symbol: symbol },
     })
       .then((data) => {
         const res = { error: false, data: data, message: "Coin actualizada" };

@@ -17,9 +17,12 @@ walletController.getAllWallets = async (req, res) => {
 walletController.getWalletByHexacode = async (req, res) => {
   try {
     const { hex_code } = req.params;
-    const response = await Wallet.findOne({ where: { hex_code: hex_code } })
+    const response = await Wallet.findOne({
+      where: { hexacode_user: hex_code },
+    })
       .then((data) => {
         const res = { error: false, data: data };
+
         return res;
       })
       .catch((error) => {
