@@ -10,7 +10,7 @@ const cors = require("cors");
 // const uploadMulter = require('./config/multer.config');
 
 const errorHandler = require("./middlewares/errorHandler");
-const indexRoutes = require("./routes/index.route.js");
+const indexRoutes = require("./routes/indexRoute.js");
 
 //mysql connections:
 require("./config/connections");

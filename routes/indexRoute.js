@@ -9,7 +9,7 @@ const express = require("express");
 const indexRouter = express.Router();
 
 //Prueba
-indexRoutes.get("/", (req, res) => {
+indexRouter.get("/", (req, res) => {
   res.json({ mensaje: "Home" });
 });
 
