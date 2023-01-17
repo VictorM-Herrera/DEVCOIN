@@ -3,29 +3,45 @@ const coinsController = {};
 
 coinsController.createCoins = async (req, res) => {
   try {
-    const modelCoin = {
-      name: req.body.name,
-      symbol: req.body.symbol,
-      image: req.body.image,
-      amount: req.body.amount,
-      walletId: req.body.walletId,
-    };
-    const response = await Coins.create(modelCoin)
-      .then((data) => {
-        const res = { error: false, data: data, message: "Coin Create" };
-        return res;
-      })
-      .catch((e) => {
-        if (
-          e.name == "SequelizeUniqueConstraintError" ||
-          e.name == "SequelizeValidationError"
-        ) {
-          return { error: true, message: e.errors.map((err) => err.message) };
-        } else {
-          return { error: true, message: e };
-        }
-      });
-    res.json(response);
+    const aux = await Coins.findOne({
+      where: { symbol: req.body.symbol, walletId: req.body.walletId },
+    }).then(async (data) => {
+      if (data) {
+        return {
+          error: true,
+          data: data,
+          message: "Ya se cargo esta moneda a la wallet",
+        };
+      } else {
+        const modelCoin = {
+          name: req.body.name,
+          symbol: req.body.symbol,
+          image: req.body.image,
+          amount: req.body.amount,
+          walletId: req.body.walletId,
+        };
+        const response = await Coins.create(modelCoin)
+          .then((data) => {
+            const res = { error: false, data: data, message: "Coin Create" };
+            return res;
+          })
+          .catch((e) => {
+            if (
+              e.name == "SequelizeUniqueConstraintError" ||
+              e.name == "SequelizeValidationError"
+            ) {
+              return {
+                error: true,
+                message: e.errors.map((err) => err.message),
+              };
+            } else {
+              return { error: true, message: e };
+            }
+          });
+        return response;
+      }
+    });
+    res.json(aux);
   } catch (e) {
     console.log(e);
   }
