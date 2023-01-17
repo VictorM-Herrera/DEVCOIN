@@ -27,7 +27,7 @@ transactionsController.createTransaction = async (req, res) => {
             receiver_hexcode: req.body.receiver_hexcode,
             amount: req.body.amount,
             type_coin: req.body.type_coin
-        }
+           }
         const response = await Transaction.create(modelTransaction)
             .then((data) => {
                 const res = {error: false, data: data, message: 'Transaccion realizada'}
@@ -46,10 +46,10 @@ transactionsController.createTransaction = async (req, res) => {
 
 transactionsController.getAllByUserCode = async (req, res) =>{
     try{
-        const { sender_hexcode, receiver_hexcode  } = req.params;
+        const { sender, receiver } = req.params;
         const response = await Transaction.findAll({
-            where: { sender_hexcode: sender_hexcode,
-                    receiver_hexcode: receiver_hexcode}
+            where: { sender_hexcode: sender,
+                    receiver_hexcode: receiver}
         }).then((data) => {
             const res = { error: false, data: data }
             return res;
