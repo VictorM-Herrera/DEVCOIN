@@ -1,14 +1,16 @@
 const { User } = require('../models/user.model');
+const { Wallet } = require('../models/wallet.model');
 const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 const jwt= require('jsonwebtoken');
+const { sendMail } = require('../middlewares/sendMail');
 const userController = {};
 
 
 //ESPERAR A QUE SE DECIDAN LOS ENDPOINTS, (HABLAR CON LOS 2 EQUIPOS(?))
 //Funciones Hexcode:
 function generateHexCode(){
-    return crypto.randomBytes(5).toString('hex');
+    return crypto.randomBytes(3).toString('hex');
 }
 function isHexCodeUnique(hex_code)
 {
@@ -52,16 +54,8 @@ userController.getUserByHexCode = async (req, res) => {
         console.log(err);
     }
 }
-//mandar email
+
 userController.createUser = async (req,res) => {
-    // try {
-    //     let urlImage;
-    //     if (req.file === undefined) {
-    //         urlImage = null;
-    //     }else{
-    //         const url = req.protocol + '://' + req.get('host');
-    //         urlImage = url + '/public/' + req.file.filename
-    //     }
     try{
         const modelData = {
             first_name: req.body.first_name,
@@ -72,7 +66,7 @@ userController.createUser = async (req,res) => {
             hex_code: "",
             address: req.body.address,
             phone: req.body.phone,
-            rol_id: req.body.rol_id,
+            rol_id: 2,
         }
         let hex_code = generateHexCode();
         isHexCodeUnique(hex_code)
@@ -87,7 +81,20 @@ userController.createUser = async (req,res) => {
                             const res = {error: true, message: error}
                             return res;
                         })
-                    res.json(response);
+
+                        const walletData={
+                            hexacode_user: modelData.hex_code,
+                        }
+                        const aux = await Wallet.create(walletData)
+                            .then((data) => {
+                                const res = {error: false, data: data, message: 'Billetera creada'};
+                                return res;
+                            }).catch(error => {
+                                const res = { error:true, message:error}
+                                return res;
+                            })
+                        sendMail(req,res);
+                    res.json({user: response, wallet: aux});
                 }else{
                     hex_code = generateHexCode();
                     return isHexCodeUnique(hex_code);
@@ -109,6 +116,24 @@ userController.deleteUserByHexCode = async (req, res) => {
             where:{ hex_code: hexCode }
         }).then((data) => {
             const res = { error: false, data:data, message: 'Usuario dado de baja'};
+            return res;
+        }).catch( err => {
+            const res = { error: true, message: err};
+            return res; 
+        })
+        res.json(response)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+userController.verifyAccount = async (req, res) => {
+    try {
+        const { email } = req.params;
+        const response = await User.update({ verified_user: true }, {
+            where:{ email: email }
+        }).then((data) => {
+            const res = { error: false, data:data, message: 'Usuario verificado'};
             return res;
         }).catch( err => {
             const res = { error: true, message: err};
@@ -186,5 +211,26 @@ userController.logInUser = async (req, res) => {
     }
 }
 
-userController
+userController.sendRecoverMail = async (req, res) => {
+    try {
+        sendMail(req,res, '`<p>Para recuperar la contraseña ingresa a: <a href=${req.body.link}>recuperar contraseña<a><p>`');
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+userController.recoverPassword = async (req, res) => {
+    try {
+        const { email } = req.params;
+
+        const  modelData= {
+            password: bcrypt.hashSync(req.body.password, 10),
+        }
+        const response = await User.update(modelData,{
+            where:{email: email}
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
 module.exports = userController;
