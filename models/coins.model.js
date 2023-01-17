@@ -1,8 +1,8 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/mysql.config");
 
-//const validateRequest = require('../middlewares/validateRequest');
-//const Joi = require('joi');
+const validateRequest = require("../middlewares/validateRequest");
+const Joi = require("joi");
 
 const Coins = sequelize.define(
   "Coins",
@@ -44,10 +44,10 @@ const ValidateCoins = (req, res, next) => {
       "string.min": "El Symbol debe ser mayor a 2 caracteres",
       "any.required": "Ingresa el Symbol",
     }),
-    image: Joi.TEXT().required().messages({
+    image: Joi.string().required().messages({
       "any.required": "Ingresa una imagen",
     }),
-    amount: Joi.DECIMAL().required().messages({
+    amount: Joi.number().required().messages({
       "any.required": "Ingresa un importe valido",
     }),
   });
