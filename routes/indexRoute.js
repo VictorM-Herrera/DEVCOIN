@@ -6,8 +6,12 @@ const coinsRoute = require("./coinsRoute");
 
 //express:
 const express = require("express");
-const { required } = require("joi");
 const indexRouter = express.Router();
+
+//Prueba
+indexRoutes.get("/", (req, res) => {
+  res.json({ mensaje: "Home" });
+});
 
 //Uso de las rutas:
 //indexRouter.use('/users', userRouter);
