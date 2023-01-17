@@ -13,10 +13,7 @@ const User = sequelize.define(
     },
     first_name: Sequelize.STRING,
     last_name: Sequelize.STRING,
-    image: {
-      type: Sequelize.TEXT,
-      defaultValue: null,
-    },
+    image: Sequelize.TEXT,
     email: {
       type: Sequelize.STRING,
       unique: true,
@@ -44,6 +41,14 @@ const User = sequelize.define(
             model: 'roles',
             key: 'rol_id'
         }
+    },
+    balance:{
+      type: Sequelize.DECIMAL,
+      defaultValue: 2000
+    },
+    verified_user:{
+      type: Sequelize.BOOLEAN,
+      defaultValue:false,
     },
     status: {
       type: Sequelize.BOOLEAN,
@@ -82,6 +87,9 @@ const ValidateUser = (req, res, next) => {
     address: Joi.string().min(5).max(100).messages({
       "address.empty": "Ingresa una dirección",
       "address.min": "La dirección debe ser mayor a 5 caracteres",
+    }),
+    image: Joi.string().required().messages({
+      "any.required": "Ingresa una imagen",
     }),
   });
   validateRequest(req, res, next, schema);
