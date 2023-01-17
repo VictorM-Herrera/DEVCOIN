@@ -24,7 +24,8 @@ const Coins = sequelize.define(
       type: Sequelize.TEXT,
     },
     amount: {
-      type: Sequelize.DECIMAL,
+      type: Sequelize.DECIMAL(20, 8),
+      allowNull: false,
     },
   },
   {

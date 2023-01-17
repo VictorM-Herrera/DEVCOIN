@@ -8,6 +8,7 @@ coinsController.createCoins = async (req, res) => {
       symbol: req.body.symbol,
       image: req.body.image,
       amount: req.body.amount,
+      walletId: req.body.walletId,
     };
     const response = await Coins.create(modelCoin)
       .then((data) => {
