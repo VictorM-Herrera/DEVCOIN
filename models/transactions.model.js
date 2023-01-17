@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/mysql.config");
 const Joi = require('joi');
+const validateRequest = require('../middlewares/validateRequest')
 
 const Transaction = sequelize.define("Transactions", {
 
@@ -24,7 +25,7 @@ const Transaction = sequelize.define("Transactions", {
   },
 
   amount: {                 // CANTIDAD - TIPO DE VARIABLE : DECIMAL
-    type: Sequelize.DECIMAL,
+    type: Sequelize.DOUBLE,
   },
 
   type_coin: {              // TIPO DE CRYTOMONEDA

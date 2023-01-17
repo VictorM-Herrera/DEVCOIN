@@ -5,7 +5,7 @@ const {ValidateTransaction} = require('../models/transactions.model')
 
 router.get('/', transactionsController.getAllTransactions) //OBTIENE TODAS LAS TRANSACCIONES
 
-router.get('/:sender/:receiver', transactionsController.getAllByUserCode) // OBTIENE TRANSACCION MEDIANTE EL EMISOR Y EL RECEPTOR
+router.get('/:hexcode', transactionsController.getAllByUserCode) // OBTIENE TRANSACCION MEDIANTE EL EMISOR Y EL RECEPTOR
 
 router.post('/',[ValidateTransaction], transactionsController.createTransaction) // CREA UNA TRANSACCION
 
