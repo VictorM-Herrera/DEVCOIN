@@ -45,6 +45,10 @@ const User = sequelize.define(
             key: 'rol_id'
         }
     },
+    balance:{
+      type: Sequelize.DECIMAL,
+      defaultValue: 2000
+    },
     status: {
       type: Sequelize.BOOLEAN,
       defaultValue: true,

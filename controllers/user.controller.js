@@ -34,6 +34,25 @@ userController.getAllUsers = async (req,res) => {
         res.json(response);
 }
 
+userController.getUserByHexCode = async (req, res) => {
+    try {
+        const { hexCode } = req.params;
+        const response = await User.findAll({
+            where: {hex_code: hexCode}
+        })
+        .then((data) => {
+            const res = { error: false, data: data}
+            return res;
+        }).catch((error) => {
+            const res = {error: true, message:error}
+            return res;
+        })
+        res.json(response);
+    } catch (error) {
+        console.log(err);
+    }
+}
+//mandar email
 userController.createUser = async (req,res) => {
     // try {
     //     let urlImage;
@@ -53,7 +72,7 @@ userController.createUser = async (req,res) => {
             hex_code: "",
             address: req.body.address,
             phone: req.body.phone,
-            rol_name: req.body.rol_name
+            rol_id: req.body.rol_id,
         }
         let hex_code = generateHexCode();
         isHexCodeUnique(hex_code)
@@ -83,4 +102,89 @@ userController.createUser = async (req,res) => {
     }
 }
 
+userController.deleteUserByHexCode = async (req, res) => {
+    try {
+        const { hexCode } = req.params;
+        const response = await User.update({status: false}, {
+            where:{ hex_code: hexCode }
+        }).then((data) => {
+            const res = { error: false, data:data, message: 'Usuario dado de baja'};
+            return res;
+        }).catch( err => {
+            const res = { error: true, message: err};
+            return res; 
+        })
+        res.json(response)
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+userController.updateUserByHexCode = async (req, res) => {
+    try {
+        const { hexCode } = req.params;
+        const modelData = {
+            first_name: req.body.first_name,
+            last_name: req.body.last_name,
+            image: req.body.image,
+            email: req.body.email,
+            address: req.body.address,
+            phone: req.body.phone,
+            balance: req.body.balance,
+        }
+        if(req.body.password)
+        {
+            modelData={...modelData,...{password:bcrypt.hashSync(req.body.password, 10)}};
+        }
+        const response = await User.update(modelData,{
+            where:{ hex_code: hexCode }
+        }).then((data) => {
+            const res = { error: false, data:data, message: 'Usuario actualizado'};
+            return res;
+        }).catch(err => {
+            const res = { error: true, message:err };
+            return res;
+        });
+        res.json(response);
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+userController.logInUser = async (req, res) => {
+    try {
+        User.findOne({
+            where:{
+                email: req.body.email
+            }
+        })
+        .then((user) => {
+            if (!user) {
+                return res.status(401).send({
+                    message: 'El usuario o la contraseña no existe'
+                });
+            }
+            const passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
+            if (!passwordIsValid) {
+                return res.status(401).send({message: 'El usuario o la contraseña no existe'});
+            }
+            const tokenAccess = jwt.sign(
+                {
+                    hex_code: user.hex_code
+                }, process.env.TOKENJSW,{
+                    expiresIn:86400
+                }
+            );
+            user.token = tokenAccess;
+            res.status(200).send({
+                user,
+                tokenAccess
+            })
+        })
+    } catch (error) {
+        console.log(error);
+    }
+}
+
+userController
 module.exports = userController;

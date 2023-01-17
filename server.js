@@ -27,6 +27,10 @@ server.use(express.urlencoded({ extended: true }));
 // server.use("/", indexRoutes);
 // server.post('/users', [ValidateUser], userController.createUser);
 
+server.get('/', (req, res)=>{
+  res.json('hola')
+})
+
 server.listen(port, () => {
   console.log(`Server in the port: ${port}`);
 });
