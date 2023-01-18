@@ -34,6 +34,22 @@ userController.getAllUsers = async (req, res) => {
   res.json(response);
 };
 
+// userController.getAllUsersActive = async (req, res) => {
+//   const status = true;
+//   const response = await User.findAll({
+//       where:{status: status}
+//     })
+//     .then((data) => {
+//       const res = { error: false, data: data };
+//       return res;
+//     })
+//     .catch((error) => {
+//       const res = { error: true, message: error };
+//       return res;
+//     });
+//   res.json(response);
+// };
+
 userController.getUserByHexCode = async (req, res) => {
   try {
     const { hexCode } = req.params;
@@ -252,11 +268,14 @@ userController.logInUser = async (req, res) => {
 
 userController.sendRecoverMail = async (req, res) => {
   try {
-    sendMail(
-      req,
-      res,
-      "`<p>Para recuperar la contraseña ingresa a: <a href=${req.body.link}>recuperar contraseña<a><p>`"
-    );
+    if (req.body.link) {
+        sendMail(req,res,
+        `<p>Para recuperar la contraseña ingresa a: <a href=${req.body.link}>recuperar contraseña<a><p>`
+        );
+      res.json({message: 'Correo enviado'});
+    }else{
+      res.status(400).json('No hay un link ingresado');
+    }
   } catch (error) {
     console.log(error);
   }
@@ -271,7 +290,14 @@ userController.recoverPassword = async (req, res) => {
     };
     const response = await User.update(modelData, {
       where: { email: email },
-    });
+    }).then((data) => {
+      const res = {error: false, data: data}
+      return res;
+    }).catch(error => {
+      const res = {error: true, error:error, messsage: 'Ah ocurrido un error al ingresar la nueva contraseña'}
+      return res;
+    })
+    res.json(response);
   } catch (error) {
     console.log(error);
   }

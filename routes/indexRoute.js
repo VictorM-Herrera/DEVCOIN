@@ -1,5 +1,5 @@
 //requires delas rutas:
-//const userRouter = require('./user.route');
+const userRouter = require('./userRoute');
 const transactionRoute = require("./transactionRoute");
 const walletRoute = require("./walletRoute");
 const coinsRoute = require("./coinsRoute");
@@ -14,7 +14,7 @@ indexRouter.get("/", (req, res) => {
 });
 
 //Uso de las rutas:
-//indexRouter.use('/users', userRouter);
+indexRouter.use('/user', userRouter);
 indexRouter.use("/transaction", transactionRoute);
 indexRouter.use("/wallet", walletRoute);
 indexRouter.use("/coins", coinsRoute);
