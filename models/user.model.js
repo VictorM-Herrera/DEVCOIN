@@ -6,10 +6,11 @@ const validateRequest = require("../middlewares/validateRequest");
 const User = sequelize.define(
   "users",
   {
-    user_id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+    hex_code: {
+      type: Sequelize.STRING,
+      primaryKey:true,
+      unique: true,
+      allowNull: false,
     },
     first_name: Sequelize.STRING,
     last_name: Sequelize.STRING,
@@ -24,12 +25,6 @@ const User = sequelize.define(
       },
     },
     password: Sequelize.STRING,
-    hex_code: {
-      type: Sequelize.STRING,
-      unique: true,
-      allowNull: false,
-    },
-
     address: Sequelize.STRING,
     phone: {
       type: Sequelize.STRING,
@@ -41,10 +36,6 @@ const User = sequelize.define(
         model: "roles",
         key: "rol_id",
       },
-    },
-    balance: {
-      type: Sequelize.DECIMAL,
-      defaultValue: 2000,
     },
     verified_user: {
       type: Sequelize.BOOLEAN,

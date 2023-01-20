@@ -3,7 +3,6 @@ const sequelize = require("../config/mysql.config");
 
 const validateRequest = require("../middlewares/validateRequest");
 const Joi = require("joi");
-const { INTEGER } = require("sequelize");
 
 const Coins = sequelize.define(
   "Coins",
