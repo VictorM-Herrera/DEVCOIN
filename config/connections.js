@@ -10,18 +10,15 @@ const sequelize = require("./mysql.config");
 //   console.log('tabla de usuarios eliminada y vuelta a crear');
 // })
 
-
-
-Wallet.hasMany(Coins, {
-  foreignKey: "walletId",
-  sourceKey: "wallet_id",
-});
+// Wallet.hasMany(Coins, {
+//   foreignKey: "walletId",
+//   sourceKey: "wallet_id",
+// });
 
 Coins.belongsTo(Wallet, {
   foreignKey: "walletId",
   targetKey: "wallet_id",
 });
-
 
 Rol.sync();
 User.sync();
@@ -29,9 +26,9 @@ Wallet.sync();
 Coins.sync();
 Transaction.sync();
 
-// sequelize.drop().then(() =>{
-//   console.log('todo fue eliminado');
-// })
+// sequelize.drop().then(() => {
+//   console.log("todo fue eliminado");
+// });
 
 DBMysql.sync()
   .then(() => console.log("Conectado con exito a Railway"))

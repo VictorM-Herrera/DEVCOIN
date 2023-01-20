@@ -18,6 +18,10 @@ const Wallet = sequelize.define(
           key: 'hex_code',
       }
     },
+    balance: {
+      type: Sequelize.DECIMAL,
+      defaultValue: 2000,
+    },
   },
   {
     timestamps: false,

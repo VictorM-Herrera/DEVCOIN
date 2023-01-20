@@ -1,40 +1,44 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/mysql.config");
 const Joi = require('joi');
+const validateRequest = require('../middlewares/validateRequest')
 
 const Transaction = sequelize.define("Transactions", {
 
-  transaction_id: {
+  transaction_id: {         // ID DE TRANSACCION
     type: Sequelize.INTEGER,
     primaryKey: true,
     autoIncrement: true,
-  },
+  }, 
 
-  transaction_date: {
+  transaction_date: {       // FECHA DE TRANSACCION 
     type: Sequelize.DATE,
     defaultValue: Sequelize.fn('NOW'),
-  },
+  }, 
 
-  transmitter_hexcode: {
+  sender_hexcode: {         // CODIGO DEL EMISOR 
     type: Sequelize.STRING,
   },
 
-  receiver_hexcode: {
+  receiver_hexcode: {       // CODIGO DEL RECEPTOR
     type: Sequelize.STRING,
   },
 
-  amount: {
-    type: Sequelize.DECIMAL,
+  amount: {                 // CANTIDAD - TIPO DE VARIABLE : DECIMAL
+    type: Sequelize.DOUBLE,
   },
-
-  type_coin: {
-    type: Sequelize.STRING,
+  coinId: {              // ID DE LA CRIPTOMONEDA
+    type: Sequelize.INTEGER,
+    references:{
+      model: 'Coins',
+      key: 'coin_id',
+    }
   },
 },{timestamps:false});
 
 const ValidateTransaction = (req,res,next) => {
     const schema = Joi.object({
-        transmitter_hexcode: Joi.string().required()
+        sender_hexcode: Joi.string().required()
         .messages({
             'string.empty': "Ingresa al Emisor",
             'any.required': "Ingresa al Emisor"
@@ -49,10 +53,10 @@ const ValidateTransaction = (req,res,next) => {
             'number.empty': "Ingrese el monto a transferir",
             'any.required': "Ingrese el monto a transferir"
         }),
-        type_coin: Joi.string().required()
+        coinId: Joi.number().required()
         .messages({
-            'string.empty': "Ingresa la cryptomoneda",
-            'any.required': "Ingresa al cryptomoneda"
+            'number.empty': "Ingresa el id de la cryptomoneda",
+            'any.required': "Ingresa el id de la cryptomoneda"
         }),
     });
     validateRequest(req,res,next,schema);

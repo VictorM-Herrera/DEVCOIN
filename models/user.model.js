@@ -6,17 +6,15 @@ const validateRequest = require("../middlewares/validateRequest");
 const User = sequelize.define(
   "users",
   {
-    user_id: {
-      type: Sequelize.INTEGER,
-      primaryKey: true,
-      autoIncrement: true,
+    hex_code: {
+      type: Sequelize.STRING,
+      primaryKey:true,
+      unique: true,
+      allowNull: false,
     },
     first_name: Sequelize.STRING,
     last_name: Sequelize.STRING,
-    image: {
-      type: Sequelize.TEXT,
-      defaultValue: null,
-    },
+    image: Sequelize.TEXT,
     email: {
       type: Sequelize.STRING,
       unique: true,
@@ -27,27 +25,21 @@ const User = sequelize.define(
       },
     },
     password: Sequelize.STRING,
-    hex_code: {
-      type: Sequelize.STRING,
-      unique:true,
-      allowNull:false,
-    },
-
     address: Sequelize.STRING,
     phone: {
       type: Sequelize.STRING,
       unique: true,
     },
-    rol_id:{
-        type: Sequelize.INTEGER,
-        references:{
-            model: 'roles',
-            key: 'rol_id'
-        }
+    rol_id: {
+      type: Sequelize.INTEGER,
+      references: {
+        model: "roles",
+        key: "rol_id",
+      },
     },
-    status: {
+    verified_user: {
       type: Sequelize.BOOLEAN,
-      defaultValue: true,
+      defaultValue: false,
     },
   },
   { timestamps: false }
@@ -82,6 +74,12 @@ const ValidateUser = (req, res, next) => {
     address: Joi.string().min(5).max(100).messages({
       "address.empty": "Ingresa una dirección",
       "address.min": "La dirección debe ser mayor a 5 caracteres",
+    }),
+    image: Joi.string().required().messages({
+      "any.required": "Ingresa una imagen",
+    }),
+    link: Joi.string().required().messages({
+      "any.required": "Ingresa un link",
     }),
   });
   validateRequest(req, res, next, schema);
