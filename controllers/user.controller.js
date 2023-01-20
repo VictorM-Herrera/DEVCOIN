@@ -139,8 +139,21 @@ userController.createUser = async (req, res) => {
 userController.deleteUserByHexCode = async (req, res) => {
   try {
     const { hexCode } = req.params;
-    const response = await User.update(
-      { status: false },
+    const deleteWallet = await Wallet.destroy({
+      where:{hexacode_user: hexCode}
+    }).then((data) => {
+      const res = {
+        error: false,
+        data: data,
+        message: "Usuario dado de baja",
+      };
+      return res;
+    })
+    .catch((err) => {
+      const res = { error: true, message: err };
+      return res;
+    });
+    const response = await User.destroy(
       {
         where: { hex_code: hexCode },
       }
@@ -157,7 +170,7 @@ userController.deleteUserByHexCode = async (req, res) => {
         const res = { error: true, message: err };
         return res;
       });
-    res.json(response);
+    res.json(response, deleteWallet);
   } catch (error) {
     console.log(error);
   }

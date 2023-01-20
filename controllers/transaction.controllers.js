@@ -22,6 +22,7 @@ transactionsController.getAllTransactions = async (req, res) => {
 
 transactionsController.createTransaction = async (req, res) => {
   try {
+    let flag = true;
     const modelTransaction = {
       sender_hexcode: req.body.sender_hexcode,
       receiver_hexcode: req.body.receiver_hexcode,
@@ -36,9 +37,11 @@ transactionsController.createTransaction = async (req, res) => {
       if (data) {
         return data.dataValues.wallet_id;
       }else{
+        flag =false;
         res.status(400).json({message: 'El codigo del emisor no es valido'});
       }
     }).catch(err => {
+      flag=false;
       res.status(400).json({error: true, message: err})
     })
 
@@ -46,6 +49,7 @@ transactionsController.createTransaction = async (req, res) => {
       where:{walletId: idWalletSender, coin_id: req.body.coinId}
     }).then( async (data) => {
       if (!data) {
+        flag=false;
         res.status(401).json({error:true, message: 'No tienes saldo suficiente'})
       }else{
         const coinData = {
@@ -56,38 +60,27 @@ transactionsController.createTransaction = async (req, res) => {
           walletId: 0,
         }
         if (data.dataValues.amount < req.body.amount) {
+          flag=false;
           res.status(401).json({error:true, message: 'No tienes saldo suficiente'})
         }else{
-          //update a la moneda
-          const total = (data.dataValues.amount - req.body.amount);
-          const aux = await Coins.update({amount : total},{
-            where:{coin_id: data.dataValues.coin_id}
-          }).then((data) => {
-            const res = { error: false, message: "Saldo actualizado" };
-            return res;
-          })
-          .catch((err) => {
-            const res = { error: true, message: err };
-            return res;
-          });
-
-          //busco la id del receptor
+          //BUSCO EL ID DEL RECEPTOR
           const idWalletReceiver = await Wallet.findOne({
             where:{hexacode_user: req.body.receiver_hexcode}
           }).then((data) => {
             if (data) {
               return data.dataValues.wallet_id;
             }else{
+              flag=false;
               res.status(400).json({message: 'El codigo del receptor no es valido'});
             }
           }).catch(err => {
+            flag=false;
             res.status(400).json({error: true,message: err })
           })
-          
+          //CREO UNA MONEDA O SUMO EL MONTO AL RECEPTOR
           const receiver = await Coins.findOne({
             where:{walletId: idWalletReceiver, symbol: coinData.symbol}
           }).then( async (data) => {
-            console.log(data);
             if (!data) {
               coinData.walletId = idWalletReceiver;
               const createCoin = await Coins.create(coinData)
@@ -97,8 +90,7 @@ transactionsController.createTransaction = async (req, res) => {
 
                 return createCoin;
             }else{
-              console.log(data);
-              //update a la moneda
+              //SUMO AL TOTAL (RECEPTOR)
               const totalReceiver = (parseFloat(data.dataValues.amount) + parseFloat(req.body.amount));
               const aux = await Coins.update({amount : totalReceiver},{
                 where:{coin_id: data.dataValues.coin_id}
@@ -107,6 +99,7 @@ transactionsController.createTransaction = async (req, res) => {
                 return res;
               })
               .catch((err) => {
+                flag=false;
                 const res = { error: true, message: err };
                 return res;
               });
@@ -114,28 +107,48 @@ transactionsController.createTransaction = async (req, res) => {
               return aux;
             }
           }).catch(err => {
+            flag=false;
             res.status(400).json({error:true, message: err})
-          })//agregar catch(?)
-          
+          })
+          //UPDATE A LA MONEDA DEL EMISOR \/
+          let aux;
+          if(flag== true){//compruebo que nunca haya errores
+            const total = (data.dataValues.amount - req.body.amount);
+            aux = await Coins.update({amount : total},{
+              where:{coin_id: data.dataValues.coin_id}
+            }).then(() => {
+              const res = { error: false, message: "Saldo actualizado" };
+              return res;
+            })
+            .catch((err) => {
+              flag = false;
+              const res = { error: true, message: err };
+              return res;
+            });
+          }
+
           return {sender: aux, receiver: receiver};
         }
       }
     })
     //CREACION DE LA TRANSACCION: TODO: crearla antes de todo esto y despues dropearla si hay un error, o crearla solo si no hay errores
-    const response = await Transaction.create(modelTransaction)
-      .then((data) => {
-        const res = {
-          error: false,
-          data: data,
-          message: "Transaccion realizada",
-        };
-        return res;
-      })
-      .catch((error) => {
-        const res = { error: true, mesagge: error };
-        return res;
-      });
-    res.json({res: response, other: sender});
+    if (flag == true) {
+      const response = await Transaction.create(modelTransaction)
+        .then((data) => {
+          const res = {
+            error: false,
+            data: data,
+            message: "Transaccion realizada",
+          };
+          return res;
+        })
+        .catch((error) => {
+          const res = { error: true, mesagge: error };
+          return res;
+        });
+      res.json({res: response, other: sender});
+    }
+
   } catch (err) {
     console.log(err);
   }

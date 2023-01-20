@@ -41,10 +41,6 @@ const User = sequelize.define(
       type: Sequelize.BOOLEAN,
       defaultValue: false,
     },
-    status: {
-      type: Sequelize.BOOLEAN,
-      defaultValue: true,
-    },
   },
   { timestamps: false }
 );
