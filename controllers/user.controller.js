@@ -199,13 +199,13 @@ userController.verifyAccount = async (req, res) => {
 userController.updateUserByHexCode = async (req, res) => {
   try {
     const { hexCode } = req.params;
-    const modelData = {
+    let modelData = {
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       image: req.body.image,
       email: req.body.email,
       address: req.body.address,
-      phone: req.body.phone
+      phone: req.body.phone,
     };
     if (req.body.password) {
       modelData = {
