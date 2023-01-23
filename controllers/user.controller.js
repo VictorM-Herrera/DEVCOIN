@@ -140,28 +140,25 @@ userController.deleteUserByHexCode = async (req, res) => {
   try {
     const { hexCode } = req.params;
     const deleteWallet = await Wallet.destroy({
-      where:{hexacode_user: hexCode}
-    }).then((data) => {
-      const res = {
-        error: false,
-        data: data,
-        message: "Usuario dado de baja",
-      };
-      return res;
+      where: { hexacode_user: hexCode },
     })
-    .catch((err) => {
-      const res = { error: true, message: err };
-      return res;
-    });
-    const response = await User.destroy(
-      {
-        where: { hex_code: hexCode },
-      }
-    )
       .then((data) => {
         const res = {
           error: false,
-          data: data,
+          message: "Wallet dada de baja",
+        };
+        return res;
+      })
+      .catch((err) => {
+        const res = { error: true, message: err };
+        return res;
+      });
+    const response = await User.destroy({
+      where: { hex_code: hexCode },
+    })
+      .then((data) => {
+        const res = {
+          error: false,
           message: "Usuario dado de baja",
         };
         return res;
@@ -170,7 +167,7 @@ userController.deleteUserByHexCode = async (req, res) => {
         const res = { error: true, message: err };
         return res;
       });
-    res.json(response, deleteWallet);
+    res.status(200).json({ user: response, wallet: deleteWallet });
   } catch (error) {
     console.log(error);
   }
@@ -282,12 +279,14 @@ userController.logInUser = async (req, res) => {
 userController.sendRecoverMail = async (req, res) => {
   try {
     if (req.body.link) {
-        sendMail(req,res,
+      sendMail(
+        req,
+        res,
         `<p>Para recuperar la contraseña ingresa a: <a href=${req.body.link}>recuperar contraseña<a><p>`
-        );
-      res.json({message: 'Correo enviado'});
-    }else{
-      res.status(400).json('No hay un link ingresado');
+      );
+      res.json({ message: "Correo enviado" });
+    } else {
+      res.status(400).json("No hay un link ingresado");
     }
   } catch (error) {
     console.log(error);
@@ -303,13 +302,19 @@ userController.recoverPassword = async (req, res) => {
     };
     const response = await User.update(modelData, {
       where: { email: email },
-    }).then((data) => {
-      const res = {error: false, data: data}
-      return res;
-    }).catch(error => {
-      const res = {error: true, error:error, messsage: 'Ah ocurrido un error al ingresar la nueva contraseña'}
-      return res;
     })
+      .then((data) => {
+        const res = { error: false, data: data };
+        return res;
+      })
+      .catch((error) => {
+        const res = {
+          error: true,
+          error: error,
+          messsage: "Ah ocurrido un error al ingresar la nueva contraseña",
+        };
+        return res;
+      });
     res.json(response);
   } catch (error) {
     console.log(error);
