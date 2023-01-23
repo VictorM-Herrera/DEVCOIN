@@ -1,8 +1,10 @@
 const express = require("express");
 const wallet = express.Router();
 const walletController = require("../controllers/wallet.controller");
+const validateToken = require("../middlewares/validateToken");
 
 wallet.get("/", walletController.getAllWallets);
-wallet.get("/:hex_code", walletController.getWalletByHexacode);
+wallet.get("/:hex_code", [validateToken], walletController.getWalletByHexacode); //pide token
+wallet.put("/:hexaCode", [validateToken], walletController.updateWallet); //pide token
 
 module.exports = wallet;

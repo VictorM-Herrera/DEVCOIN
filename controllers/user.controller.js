@@ -73,12 +73,12 @@ userController.getUserByHexCode = async (req, res) => {
 userController.createUser = async (req, res) => {
   try {
     const modelData = {
+      hex_code: "",
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       image: req.body.image,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 10),
-      hex_code: "",
       address: req.body.address,
       phone: req.body.phone,
       rol_id: 2,
@@ -139,16 +139,26 @@ userController.createUser = async (req, res) => {
 userController.deleteUserByHexCode = async (req, res) => {
   try {
     const { hexCode } = req.params;
-    const response = await User.update(
-      { status: false },
-      {
-        where: { hex_code: hexCode },
-      }
-    )
+    const deleteWallet = await Wallet.destroy({
+      where: { hexacode_user: hexCode },
+    })
       .then((data) => {
         const res = {
           error: false,
-          data: data,
+          message: "Wallet dada de baja",
+        };
+        return res;
+      })
+      .catch((err) => {
+        const res = { error: true, message: err };
+        return res;
+      });
+    const response = await User.destroy({
+      where: { hex_code: hexCode },
+    })
+      .then((data) => {
+        const res = {
+          error: false,
           message: "Usuario dado de baja",
         };
         return res;
@@ -157,7 +167,7 @@ userController.deleteUserByHexCode = async (req, res) => {
         const res = { error: true, message: err };
         return res;
       });
-    res.json(response);
+    res.status(200).json({ user: response, wallet: deleteWallet });
   } catch (error) {
     console.log(error);
   }
@@ -195,8 +205,7 @@ userController.updateUserByHexCode = async (req, res) => {
       image: req.body.image,
       email: req.body.email,
       address: req.body.address,
-      phone: req.body.phone,
-      balance: req.body.balance,
+      phone: req.body.phone
     };
     if (req.body.password) {
       modelData = {
@@ -269,12 +278,14 @@ userController.logInUser = async (req, res) => {
 userController.sendRecoverMail = async (req, res) => {
   try {
     if (req.body.link) {
-        sendMail(req,res,
+      sendMail(
+        req,
+        res,
         `<p>Para recuperar la contraseña ingresa a: <a href=${req.body.link}>recuperar contraseña<a><p>`
-        );
-      res.json({message: 'Correo enviado'});
-    }else{
-      res.status(400).json('No hay un link ingresado');
+      );
+      res.json({ message: "Correo enviado" });
+    } else {
+      res.status(400).json("No hay un link ingresado");
     }
   } catch (error) {
     console.log(error);
@@ -290,13 +301,19 @@ userController.recoverPassword = async (req, res) => {
     };
     const response = await User.update(modelData, {
       where: { email: email },
-    }).then((data) => {
-      const res = {error: false, data: data}
-      return res;
-    }).catch(error => {
-      const res = {error: true, error:error, messsage: 'Ah ocurrido un error al ingresar la nueva contraseña'}
-      return res;
     })
+      .then((data) => {
+        const res = { error: false, data: data };
+        return res;
+      })
+      .catch((error) => {
+        const res = {
+          error: true,
+          error: error,
+          messsage: "Ah ocurrido un error al ingresar la nueva contraseña",
+        };
+        return res;
+      });
     res.json(response);
   } catch (error) {
     console.log(error);

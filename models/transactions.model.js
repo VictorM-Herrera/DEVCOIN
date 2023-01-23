@@ -33,10 +33,13 @@ const Transaction = sequelize.define(
       // CANTIDAD - TIPO DE VARIABLE : DECIMAL
       type: Sequelize.DOUBLE,
     },
-
-    type_coin: {
-      // TIPO DE CRYTOMONEDA
-      type: Sequelize.STRING,
+    coinId: {
+      // ID DE LA CRIPTOMONEDA
+      type: Sequelize.INTEGER,
+      references: {
+        model: "Coins",
+        key: "coin_id",
+      },
     },
   },
   { timestamps: false }
@@ -56,9 +59,9 @@ const ValidateTransaction = (req, res, next) => {
       "number.empty": "Ingrese el monto a transferir",
       "any.required": "Ingrese el monto a transferir",
     }),
-    type_coin: Joi.string().required().messages({
-      "string.empty": "Ingresa la cryptomoneda",
-      "any.required": "Ingresa al cryptomoneda",
+    coinId: Joi.number().required().messages({
+      "number.empty": "Ingresa el id de la cryptomoneda",
+      "any.required": "Ingresa el id de la cryptomoneda",
     }),
   });
   validateRequest(req, res, next, schema);
