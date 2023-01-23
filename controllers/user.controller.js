@@ -73,12 +73,12 @@ userController.getUserByHexCode = async (req, res) => {
 userController.createUser = async (req, res) => {
   try {
     const modelData = {
+      hex_code: "",
       first_name: req.body.first_name,
       last_name: req.body.last_name,
       image: req.body.image,
       email: req.body.email,
       password: bcrypt.hashSync(req.body.password, 10),
-      hex_code: "",
       address: req.body.address,
       phone: req.body.phone,
       rol_id: 2,
@@ -208,8 +208,7 @@ userController.updateUserByHexCode = async (req, res) => {
       image: req.body.image,
       email: req.body.email,
       address: req.body.address,
-      phone: req.body.phone,
-      balance: req.body.balance,
+      phone: req.body.phone
     };
     if (req.body.password) {
       modelData = {
