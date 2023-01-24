@@ -1,9 +1,9 @@
 //requires delas rutas:
-const userRouter = require('./userRoute');
+const userRouter = require("./userRoute");
 const transactionRoute = require("./transactionRoute");
 const walletRoute = require("./walletRoute");
 const coinsRoute = require("./coinsRoute");
-const rolController = require('../controllers/rol.controller');
+const rolController = require("../controllers/rol.controller");
 
 //express:
 const express = require("express");
@@ -13,10 +13,10 @@ const indexRouter = express.Router();
 indexRouter.get("/", (req, res) => {
   res.json({ mensaje: "Home" });
 });
-indexRouter.post('/rol', rolController.createRol);
+indexRouter.post("/rol", rolController.createRol);
 
 //Uso de las rutas:
-indexRouter.use('/user', userRouter);
+indexRouter.use("/user", userRouter);
 indexRouter.use("/transaction", transactionRoute);
 indexRouter.use("/wallet", walletRoute);
 indexRouter.use("/coins", coinsRoute);
