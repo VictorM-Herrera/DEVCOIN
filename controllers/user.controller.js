@@ -4,9 +4,9 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const { sendMail } = require("../middlewares/sendMail");
+const { Coins } = require("../models/coins.model");
 const userController = {};
 
-//ESPERAR A QUE SE DECIDAN LOS ENDPOINTS, (HABLAR CON LOS 2 EQUIPOS(?))
 //Funciones Hexcode:
 function generateHexCode() {
   return crypto.randomBytes(3).toString("hex");
@@ -33,22 +33,6 @@ userController.getAllUsers = async (req, res) => {
     });
   res.json(response);
 };
-
-// userController.getAllUsersActive = async (req, res) => {
-//   const status = true;
-//   const response = await User.findAll({
-//       where:{status: status}
-//     })
-//     .then((data) => {
-//       const res = { error: false, data: data };
-//       return res;
-//     })
-//     .catch((error) => {
-//       const res = { error: true, message: error };
-//       return res;
-//     });
-//   res.json(response);
-// };
 
 userController.getUserByHexCode = async (req, res) => {
   try {
@@ -118,8 +102,13 @@ userController.createUser = async (req, res) => {
               const res = { error: true, message: error };
               return res;
             });
-          sendMail(req, res);
-          res.json({ user: response, wallet: aux });
+
+          if(response.error === true && aux.error === true){
+            res.status(409).json({user: response, wallet: aux});
+          }else{
+            sendMail(req, res);
+            res.json({ user: response, wallet: aux });
+          }
         } else {
           hex_code = generateHexCode();
           return isHexCodeUnique(hex_code);
@@ -139,6 +128,20 @@ userController.createUser = async (req, res) => {
 userController.deleteUserByHexCode = async (req, res) => {
   try {
     const { hexCode } = req.params;
+
+    const aux = await Wallet.findOne({
+      where: { hexacode_user: hexCode },
+    }).then((data)=> {
+      return data.dataValues.wallet_id;
+    })
+    const deleteCoins = await Coins.destroy({
+      where: {walletId: aux}
+    }).then(() => {
+      return {error:false, message: 'Todas las monedas dadas de baja'}
+    }).catch((err) => {
+      return {error:true, message:err}
+    })
+
     const deleteWallet = await Wallet.destroy({
       where: { hexacode_user: hexCode },
     })
@@ -157,6 +160,7 @@ userController.deleteUserByHexCode = async (req, res) => {
       where: { hex_code: hexCode },
     })
       .then((data) => {
+        
         const res = {
           error: false,
           message: "Usuario dado de baja",
@@ -167,7 +171,13 @@ userController.deleteUserByHexCode = async (req, res) => {
         const res = { error: true, message: err };
         return res;
       });
-    res.status(200).json({ user: response, wallet: deleteWallet });
+      if (deleteCoins.error === true && deleteWallet.error === true && response.error === true) {
+        res.status(422).json({ user: response, wallet: deleteWallet, coins: deleteCoins });
+      }else{
+        res.status(200).json({ user: response, wallet: deleteWallet, coins: deleteCoins });
+      }
+
+
   } catch (error) {
     console.log(error);
   }

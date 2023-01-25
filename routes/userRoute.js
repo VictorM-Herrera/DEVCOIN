@@ -7,7 +7,6 @@ const validateToken = require('../middlewares/validateToken');
 //gets:
 router.get('/', userController.getAllUsers);//funciona
 router.get('/:hexCode', userController.getUserByHexCode);//funciona
-// router.get('/activeOnly', userController.getAllUsersActive);
 
 
 //Posts

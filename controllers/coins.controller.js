@@ -12,6 +12,7 @@ coinsController.createCoins = async (req, res) => {
           data: data,
           message: "Ya se cargo esta moneda a la wallet",
         };
+        //TODO sumar los valores
       } else {
         const modelCoin = {
           name: req.body.name,
@@ -60,6 +61,7 @@ coinsController.getAllCoins = async (req, res) => {
   res.json(response);
 };
 
+//no sirve mas:
 coinsController.getByCoinSymbol = async (req, res) => {
   try {
     const { symbol } = req.params;
@@ -78,11 +80,14 @@ coinsController.getByCoinSymbol = async (req, res) => {
   }
 };
 
+//vender monedas:
 coinsController.UpdateCoins = async (req, res) => {
   try {
     const { symbol } = req.params;
+    //verificar que el monto a vender no sea mayor al monto de la moneda
+    //restar y despues actualizar
     const response = await Coins.update(req.body, {
-      where: { symbol: symbol },
+      where: { symbol: req.body.symbol, walletId: req.body.walletId },
     })
       .then((data) => {
         const res = { error: false, data: data, message: "Coin actualizada" };
