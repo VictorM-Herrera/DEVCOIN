@@ -45,19 +45,6 @@ walletController.getWalletByHexacode = async (req, res) => {
   } catch (e) {
     console.log(e);
   }
-  // try {
-  //   const { hex_code } = req.params;
-  //   const wallet = await Wallet.findOne({ where: { hexacode_user: hex_code } });
-  //   if (!wallet) {
-  //     res.status(404).send({ error: true, message: "wallet not found" });
-  //   }
-  //   const { wallet_id } = req.params;
-  //   const coins = await Coins.findAll({ where: { wallet_id: wallet_id } });
-  //   res.json({ error: false, data: { wallet, coins } });
-  // } catch (e) {
-  //   console.log(e);
-  //   res.status(500).send({ error: true, message: e });
-  // }
 };
 
 walletController.updateWallet = async (req, res) => {
