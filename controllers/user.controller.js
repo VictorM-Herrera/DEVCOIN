@@ -34,22 +34,6 @@ userController.getAllUsers = async (req, res) => {
   res.json(response);
 };
 
-// userController.getAllUsersActive = async (req, res) => {
-//   const status = true;
-//   const response = await User.findAll({
-//       where:{status: status}
-//     })
-//     .then((data) => {
-//       const res = { error: false, data: data };
-//       return res;
-//     })
-//     .catch((error) => {
-//       const res = { error: true, message: error };
-//       return res;
-//     });
-//   res.json(response);
-// };
-
 userController.getUserByHexCode = async (req, res) => {
   try {
     const { hexCode } = req.params;
