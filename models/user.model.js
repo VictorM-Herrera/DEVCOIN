@@ -8,7 +8,7 @@ const User = sequelize.define(
   {
     hex_code: {
       type: Sequelize.STRING,
-      primaryKey:true,
+      primaryKey: true,
       unique: true,
       allowNull: false,
     },
