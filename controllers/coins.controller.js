@@ -17,35 +17,20 @@ coinsController.createCoins = async (req, res) => {
         flag = false;
         res.status(400).json({ error: true, message: err });
       });
-
     const aux = await Coins.findOne({
       where: { symbol: req.body.symbol, walletId: walletId },
     }).then(async (data) => {
       if (data) {
-        const addAmount =
-          parseFloat(data.dataValues.amount) + parseFloat(req.body.amount);
-        const add = await Coins.update(
-          { amount: addAmount },
-          { where: { coin_id: data.dataValues.coin_id } }
-        )
-          .then((data) => {
-            const res = { data: data, message: "Saldo actualizado" };
-            return res;
-          })
-          .catch((err) => {
-            flag = false;
-            res.status(400).json({ error: true, message: err });
-          });
-
         const walletBalance = await Wallet.findOne({
           where: { hexacode_user: req.body.hexacode },
         }).then(async (data) => {
           if (data.dataValues.balance < req.body.total) {
             flag = false;
-            return { message: "Saldo Insufuciente" };
+            res.status(409).json({ message: "Saldo insuficiente" });
           } else {
             let total =
               parseFloat(data.dataValues.balance) - parseFloat(req.body.total);
+
             const updateWallet = await Wallet.update(
               {
                 balance: total,
@@ -55,35 +40,89 @@ coinsController.createCoins = async (req, res) => {
             return updateWallet;
           }
         });
-        return add;
+        if (flag !== false) {
+          const addAmount =
+            parseFloat(data.dataValues.amount) + parseFloat(req.body.amount);
+          const add = await Coins.update(
+            { amount: addAmount },
+            { where: { coin_id: data.dataValues.coin_id } }
+          )
+            .then((data) => {
+              const res = { data: data, message: "Saldo actualizado" };
+              return res;
+            })
+            .catch((err) => {
+              flag = false;
+              res.status(400).json({ error: true, message: err });
+            });
+
+          return add;
+        }
       } else {
         const modelCoin = {
           name: req.body.name,
           symbol: req.body.symbol,
           image: req.body.image,
           amount: req.body.amount,
-          walletId: req.body.walletId,
+          walletId: walletId,
         };
-        const response = await Coins.create(modelCoin)
-          .then((data) => {
-            const res = { error: false, data: data, message: "Coin creada" };
-            return res;
-          })
-          .catch((e) => {
+        //ACA VA LA VERIFICACION DEL SALDO (WALLET):
+        const walletBalance = await Wallet.findOne({
+          where: { hexacode_user: req.body.hexacode },
+        }).then(async (data) => {
+          if (data.dataValues.balance < req.body.total) {
             flag = false;
-            if (
-              e.name == "SequelizeUniqueConstraintError" ||
-              e.name == "SequelizeValidationError"
-            ) {
-              res.status(409).json({
-                error: true,
-                message: e.errors.map((err) => err.message),
-              });
-            } else {
-              res.status(409).json({ error: true, message: e });
-            }
-          });
-        return response;
+            res.status(409).json({ message: "Saldo insuficiente" });
+          } else {
+            let total =
+              parseFloat(data.dataValues.balance) - parseFloat(req.body.total);
+
+            const updateWallet = await Wallet.update(
+              {
+                balance: total,
+              },
+              { where: { hexacode_user: req.body.hexacode } }
+            );
+            return updateWallet;
+          }
+        });
+        if (flag !== false) {
+          const response = await Coins.create(modelCoin)
+            .then(async (data) => {
+              let total =
+                parseFloat(data.dataValues.balance) -
+                parseFloat(req.body.total);
+
+              const updateWallet = await Wallet.update(
+                {
+                  balance: total,
+                },
+                { where: { hexacode_user: req.body.hexacode } }
+              );
+
+              return {
+                error: false,
+                data: data,
+                message: "Coin creada",
+                update: updateWallet,
+              };
+            })
+            .catch((e) => {
+              flag = false;
+              if (
+                e.name == "SequelizeUniqueConstraintError" ||
+                e.name == "SequelizeValidationError"
+              ) {
+                res.status(409).json({
+                  error: true,
+                  message: e.errors.map((err) => err.message),
+                });
+              } else {
+                res.status(409).json({ error: true, message: e });
+              }
+            });
+          return response;
+        }
       }
     });
     if (flag === false) {
