@@ -23,11 +23,27 @@ transactionsController.getAllTransactions = async (req, res) => {
 transactionsController.createTransaction = async (req, res) => {
   try {
     let flag = true;
+
+    const walletId = await Wallet.findOne({
+      where: { hexacode_user: req.body.sender_hexcode },
+    })
+      .then((data) => {
+        return data.dataValues.wallet_id;
+      })
+      .catch((err) => {
+        return { error: true, message: "El codigo del usuario es incorrecto" };
+      });
+    const coinId = await Coins.findOne({
+      where: { symbol: req.body.symbol, walletId: walletId },
+    }).then((data) => {
+      return data.dataValues.coin_id;
+    });
+
     const modelTransaction = {
       sender_hexcode: req.body.sender_hexcode,
       receiver_hexcode: req.body.receiver_hexcode,
       amount: req.body.amount,
-      coinId: req.body.coinId,
+      coinId: coinId,
     };
     //buscamos la del emisor
     const idWalletSender = await Wallet.findOne({
@@ -49,7 +65,7 @@ transactionsController.createTransaction = async (req, res) => {
       });
 
     const sender = await Coins.findOne({
-      where: { walletId: idWalletSender, coin_id: req.body.coinId },
+      where: { walletId: idWalletSender, coin_id: coinId },
     }).then(async (data) => {
       if (!data) {
         flag = false;

@@ -59,9 +59,9 @@ const ValidateTransaction = (req, res, next) => {
       "number.empty": "Ingrese el monto a transferir",
       "any.required": "Ingrese el monto a transferir",
     }),
-    coinId: Joi.number().required().messages({
-      "number.empty": "Ingresa el id de la cryptomoneda",
-      "any.required": "Ingresa el id de la cryptomoneda",
+    symbol: Joi.string().required().messages({
+      "string.empty": "Ingresa el symbol de la cryptomoneda",
+      "any.required": "Ingresa el symbol de la cryptomoneda",
     }),
   });
   validateRequest(req, res, next, schema);
