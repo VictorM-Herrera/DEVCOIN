@@ -49,8 +49,11 @@ const ValidateCoins = (req, res, next) => {
     amount: Joi.number().required().messages({
       "any.required": "Ingresa un importe valido",
     }),
-    walletId: Joi.number().integer().required().messages({
-      "any.required": "Ingresa un id valido",
+    total: Joi.number().integer().required().messages({
+      "any.required": "Ingresa un monto valido",
+    }),
+    hexacode: Joi.string().required().messages({
+      "any.required": "Ingresa un exaUser valido",
     }),
   });
   validateRequest(req, res, next, schema);
