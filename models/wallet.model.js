@@ -1,8 +1,5 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/mysql.config");
-//const validateRequest = require('../middlewares/validateRequest');
-//const Joi = require('joi');
-
 const Wallet = sequelize.define(
   "Wallet",
   {
@@ -17,6 +14,10 @@ const Wallet = sequelize.define(
           model: 'users',
           key: 'hex_code',
       }
+    },
+    balance: {
+      type: Sequelize.DECIMAL,
+      defaultValue: 2000,
     },
   },
   {
