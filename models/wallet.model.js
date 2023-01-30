@@ -1,8 +1,5 @@
 const Sequelize = require("sequelize");
 const sequelize = require("../config/mysql.config");
-//const validateRequest = require('../middlewares/validateRequest');
-//const Joi = require('joi');
-
 const Wallet = sequelize.define(
   "Wallet",
   {

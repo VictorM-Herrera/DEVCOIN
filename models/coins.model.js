@@ -53,7 +53,7 @@ const ValidateCoins = (req, res, next) => {
       "any.required": "Ingresa un monto valido",
     }),
     hexacode: Joi.string().required().messages({
-      "any.required": "Ingresa un exaUser valido",
+      "any.required": "Ingresa un codigo hexadecimal valido",
     }),
   });
   validateRequest(req, res, next, schema);
