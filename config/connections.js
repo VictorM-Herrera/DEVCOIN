@@ -10,15 +10,15 @@ const sequelize = require("./mysql.config");
 //   console.log('tabla de usuarios eliminada y vuelta a crear');
 // })
 
-// Wallet.hasMany(Coins, {
-//   foreignKey: "walletId",
-//   sourceKey: "wallet_id",
-// });
+Wallet.hasMany(Coins, {
+  foreignKey: "walletId",
+  sourceKey: "wallet_id",
+});
 
 Coins.belongsTo(Wallet, {
   foreignKey: "walletId",
   targetKey: "wallet_id",
-}); // cambio
+});
 
 Rol.sync();
 User.sync();
