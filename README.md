@@ -1,44 +1,60 @@
-# DEVCOIN API 🏛️💰💱
+# DevCoin API 🏛️💰💱
 
-Esta es una API creada con Javascript y almacenada en Railway para la aplicacion https://dev-coin.web.app/.
+This is an API created with Javascript and stored in Railway for the application. https://dev-coin.web.app/.
 
-### Link
+### Api Link
 
 https://devcoin-production.up.railway.app
 
 ### Used technology
 
-| Tool                | Used to                                                                                                           |
-| ------------------- | ----------------------------------------------------------------------------------------------------------------- |
-| ReactJS             | Building the app with reusable components                                                                         |
-| React Router DOM v5 | Provide routing scheme to navigate through reactive components and protect private routes from unauthorized users |
-| SweetAlert2         | Manage modals to give information and feedback to the user                                                        |
-| Firebase            | Managing the user registration and authentification. Storing, editing and retrieving notes from database          |
+✅ Javascript
+✅ Mysql2
+✅ Sequielize
+✅ Express
+✅ Bcrypt
+✅ Cors
+✅ Dotenv
+✅ Joi
+✅ Jsonwebtoken
+✅ Nodemailer
 
 ### Functionalities
 
-- Register and log in via email+password, or authenticating through Google.
-- Writing notes and keeping them stored remotely.
-- Adding and removing a copy of a note to the favourites section.
-- Editing and deleting an existing note.
-- Using shortcuts to navegate the app.
+- Register and log in
+- Email Verification
+- Buy and Sell Cryptocurrencies
+- Send and Receive Cryptocurrencies between users
+- Converter between different cryptocurrencies
 
-### Styling
-
-I used plain CSS and kept a minimalistic approach in the design of the app. The class names are written following BEM convention.
-
-### Reach me
-
-📧 lautarovrocha@gmail.com
-👤 https://www.linkedin.com/in/lautaro-rocha/
+### Getting Started
 
 👉 Clone the repository:
 
-git clone https://github.com/jsovandoarriagada/purple-man-gaming-v2.git
+https://github.com/JRobuschi/DEVCOIN.git
+
 👉 Install npm packages:
 
 npm install
+npm i Mysql2
+npm i Sequielize
+npm i Express
+npm i Bcrypt
+npm i Cors
+npm i Dotenv
+npm i Joi
+npm i Jsonwebtoken
+npm i Nodemailer
+
 👉 Run the app:
 
 npm start
-👆 Back to top
+
+### Contact Us
+
+https://www.linkedin.com/in/juan-cruz-robuschi/
+https://www.linkedin.com/in/victor-maximiliano-herrera/
+https://www.linkedin.com/in/lautaro-rocha/
+https://www.linkedin.com/in/lucaspereyradev/
+https://www.linkedin.com/in/leonardo-sebastian-gauto-30a185216/
+https://www.linkedin.com/in/gonzalo-ordo%C3%B1ez-8aa9b2177/
