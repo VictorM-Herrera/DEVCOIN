@@ -50,6 +50,11 @@ npm i Nodemailer
 
 npm start
 
+### How to use the api
+
+Everything you need is in the POSTMAN :
+https://documenter.getpostman.com/view/24230992/2s8ZDcyemU#af3adb58-0334-4511-9d21-7e20c1f86a0a
+
 ### Contact Us
 
 https://www.linkedin.com/in/juan-cruz-robuschi/
