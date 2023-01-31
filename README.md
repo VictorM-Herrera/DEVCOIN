@@ -6,18 +6,24 @@ This is an API created with Javascript and stored in Railway for the application
 
 https://devcoin-production.up.railway.app
 
-### Used technology
+### App Repository
 
-✅ Javascript <br>
-✅ Mysql2 <br>
-✅ Sequielize <br>
-✅ Express <br>
-✅ Bcrypt <br>
-✅ Cors <br>
-✅ Dotenv <br>
-✅ Joi <br>
-✅ Jsonwebtoken <br>
-✅ Nodemailer
+https://github.com/lautaroRocha/devCoin-front
+
+### Used technologies
+
+| Tool            | Used to                                                                                                           |
+| --------------- | ----------------------------------------------------------------------------------------------------------------- |
+| ✅ Javascript   | Building the app with reusable components                                                                         |
+| ✅ Mysql2       | Provide routing scheme to navigate through reactive components and protect private routes from unauthorized users |
+| ✅ Sequielize   | Manage modals to give information and feedback to the user                                                        |
+| ✅ Express      | Managing the user registration and authentification. Storing, editing and retrieving notes from database          |
+| ✅ Bcrypt       |                                                                                                                   |
+| ✅ Cors         |                                                                                                                   |
+| ✅ Dotenv       |                                                                                                                   |
+| ✅ Joi          |                                                                                                                   |
+| ✅ Jsonwebtoken |                                                                                                                   |
+| ✅ Nodemailer   |                                                                                                                   |
 
 ### Functionalities
 
@@ -35,16 +41,7 @@ https://github.com/JRobuschi/DEVCOIN.git
 
 👉 Install npm packages:
 
-npm install <br>
-npm i Mysql2 <br>
-npm i Sequielize <br>
-npm i Express <br>
-npm i Bcrypt <br>
-npm i Cors <br>
-npm i Dotenv <br>
-npm i Joi <br>
-npm i Jsonwebtoken <br>
-npm i Nodemailer
+npm install
 
 👉 Run the app:
 
