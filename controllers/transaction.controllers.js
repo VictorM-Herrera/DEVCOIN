@@ -184,7 +184,13 @@ transactionsController.createTransaction = async (req, res) => {
         .then((data) => {
           const res = {
             error: false,
-            data: data,
+            data: {
+              sender_hexcode: modelTransaction.sender_hexcode,
+              receiver_hexcode: modelTransaction.receiver_hexcode,
+              amount: modelTransaction.amount,
+              symbol: req.body.symbol,
+              transaction_date: modelTransaction.transaction_date,
+            },
             message: "Transaccion realizada",
           };
           return res;
