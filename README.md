@@ -12,18 +12,18 @@ https://github.com/lautaroRocha/devCoin-front
 
 ### Used technologies
 
-| Tool            | Used to                                                                                                           |
-| --------------- | ----------------------------------------------------------------------------------------------------------------- |
-| ✅ Javascript   | Building the app with reusable components                                                                         |
-| ✅ Mysql2       | Provide routing scheme to navigate through reactive components and protect private routes from unauthorized users |
-| ✅ Sequielize   | Manage modals to give information and feedback to the user                                                        |
-| ✅ Express      | Managing the user registration and authentification. Storing, editing and retrieving notes from database          |
-| ✅ Bcrypt       |                                                                                                                   |
-| ✅ Cors         |                                                                                                                   |
-| ✅ Dotenv       |                                                                                                                   |
-| ✅ Joi          |                                                                                                                   |
-| ✅ Jsonwebtoken |                                                                                                                   |
-| ✅ Nodemailer   |                                                                                                                   |
+| Tool            | Used to                                                                     |
+| --------------- | --------------------------------------------------------------------------- |
+| ✅ Javascript   | Building the foundation of the entire application                           |
+| ✅ Mysql2       | Creation of the database                                                    |
+| ✅ Sequielize   | Creation of tables in the database                                          |
+| ✅ Express      | Create the server                                                           |
+| ✅ Bcrypt       | Allows you to encrypt the password so that no one can crack it              |
+| ✅ Cors         | Avoid browser problems                                                      |
+| ✅ Dotenv       | Lo usamos para almacenar información confidencial que no se carga en la web |
+| ✅ Joi          | Verify that the data entered in the database is correct and valid           |
+| ✅ Jsonwebtoken | Generates a unique token for each user to log in and navigate the page      |
+| ✅ Nodemailer   | Send emails to verify accounts and recover passwords                        |
 
 ### Functionalities
 
