@@ -35,15 +35,15 @@ https://github.com/JRobuschi/DEVCOIN.git
 
 👉 Install npm packages:
 
-npm install
-npm i Mysql2
-npm i Sequielize
-npm i Express
-npm i Bcrypt
-npm i Cors
-npm i Dotenv
-npm i Joi
-npm i Jsonwebtoken
+npm install <br>
+npm i Mysql2 <br>
+npm i Sequielize <br>
+npm i Express <br>
+npm i Bcrypt <br>
+npm i Cors <br>
+npm i Dotenv <br>
+npm i Joi <br>
+npm i Jsonwebtoken <br>
 npm i Nodemailer
 
 👉 Run the app:
