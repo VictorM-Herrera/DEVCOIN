@@ -8,15 +8,15 @@ https://devcoin-production.up.railway.app
 
 ### Used technology
 
-✅ Javascript
-✅ Mysql2
-✅ Sequielize
-✅ Express
-✅ Bcrypt
-✅ Cors
-✅ Dotenv
-✅ Joi
-✅ Jsonwebtoken
+✅ Javascript <br>
+✅ Mysql2 <br>
+✅ Sequielize <br>
+✅ Express <br>
+✅ Bcrypt <br>
+✅ Cors <br>
+✅ Dotenv <br>
+✅ Joi <br>
+✅ Jsonwebtoken <br>
 ✅ Nodemailer
 
 ### Functionalities
