@@ -54,9 +54,9 @@ https://documenter.getpostman.com/view/24230992/2s8ZDcyemU#af3adb58-0334-4511-9d
 
 ### Contact Us
 
-https://www.linkedin.com/in/juan-cruz-robuschi/
-https://www.linkedin.com/in/victor-maximiliano-herrera/
-https://www.linkedin.com/in/lautaro-rocha/
-https://www.linkedin.com/in/lucaspereyradev/
-https://www.linkedin.com/in/leonardo-sebastian-gauto-30a185216/
-https://www.linkedin.com/in/gonzalo-ordo%C3%B1ez-8aa9b2177/
+https://www.linkedin.com/in/juan-cruz-robuschi/ <br>
+https://www.linkedin.com/in/victor-maximiliano-herrera/ <br>
+https://www.linkedin.com/in/lautaro-rocha/ <br>
+https://www.linkedin.com/in/lucaspereyradev/ <br>
+https://www.linkedin.com/in/leonardo-sebastian-gauto-30a185216/ <br>
+https://www.linkedin.com/in/gonzalo-ordo%C3%B1ez-8aa9b2177/ <br>
