@@ -103,10 +103,10 @@ userController.createUser = async (req, res) => {
               return res;
             });
 
-          if(response.error === true && aux.error === true){
-            res.status(409).json({user: response, wallet: aux});
-          }else{
-            sendMail(req, res);
+          if (response.error === true && aux.error === true) {
+            res.status(409).json({ user: response, wallet: aux });
+          } else {
+            sendMail(req, res, false);
             res.json({ user: response, wallet: aux });
           }
         } else {
@@ -131,16 +131,18 @@ userController.deleteUserByHexCode = async (req, res) => {
 
     const aux = await Wallet.findOne({
       where: { hexacode_user: hexCode },
-    }).then((data)=> {
+    }).then((data) => {
       return data.dataValues.wallet_id;
-    })
+    });
     const deleteCoins = await Coins.destroy({
-      where: {walletId: aux}
-    }).then(() => {
-      return {error:false, message: 'Todas las monedas dadas de baja'}
-    }).catch((err) => {
-      return {error:true, message:err}
+      where: { walletId: aux },
     })
+      .then(() => {
+        return { error: false, message: "Todas las monedas dadas de baja" };
+      })
+      .catch((err) => {
+        return { error: true, message: err };
+      });
 
     const deleteWallet = await Wallet.destroy({
       where: { hexacode_user: hexCode },
@@ -160,7 +162,6 @@ userController.deleteUserByHexCode = async (req, res) => {
       where: { hex_code: hexCode },
     })
       .then((data) => {
-        
         const res = {
           error: false,
           message: "Usuario dado de baja",
@@ -171,13 +172,19 @@ userController.deleteUserByHexCode = async (req, res) => {
         const res = { error: true, message: err };
         return res;
       });
-      if (deleteCoins.error === true && deleteWallet.error === true && response.error === true) {
-        res.status(422).json({ user: response, wallet: deleteWallet, coins: deleteCoins });
-      }else{
-        res.status(200).json({ user: response, wallet: deleteWallet, coins: deleteCoins });
-      }
-
-
+    if (
+      deleteCoins.error === true &&
+      deleteWallet.error === true &&
+      response.error === true
+    ) {
+      res
+        .status(422)
+        .json({ user: response, wallet: deleteWallet, coins: deleteCoins });
+    } else {
+      res
+        .status(200)
+        .json({ user: response, wallet: deleteWallet, coins: deleteCoins });
+    }
   } catch (error) {
     console.log(error);
   }
@@ -291,7 +298,8 @@ userController.sendRecoverMail = async (req, res) => {
       sendMail(
         req,
         res,
-        `<p>Para recuperar la contraseña ingresa a: <a href=${req.body.link}>recuperar contraseña<a><p>`
+        true
+        // `<p>Para recuperar la contraseña ingresa a: <a href=${req.body.link}>recuperar contraseña<a><p>`
       );
       res.json({ message: "Correo enviado" });
     } else {
