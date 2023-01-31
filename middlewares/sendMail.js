@@ -62,7 +62,7 @@ const sendMail = async (req, res, mail) => {
                           margin: 0;
                       }
                       span{
-                          color: #f6f6f6;
+                          color: #ffb300;
                           font-weight: bold;
                           width: 50%;
                       }
@@ -71,16 +71,16 @@ const sendMail = async (req, res, mail) => {
                           background-color: #161616;
                       }
                       p{
-                          color: #f6f6f6;
+                          color: #4f46e5;
                           font-weight: bold;
                           width: 60%;
-                          margin: 5rem auto;
+                          margin: 3rem auto;
                           font-size: 1.5rem;
-                          line-height: 2rem;
+                          line-height: 1.5rem;
                       }
                       p>a{
                           color: #ffb300;
-                          text-decoration: none;
+                         
                       }
               
                   </style>
@@ -118,10 +118,10 @@ const sendMail = async (req, res, mail) => {
                </g>
               </svg>
                       <h1>
-                          ¡Bienvenido a DEVCOIN!
+                          ¡Bienvenido a DevCoin!
                       </h1>
                       <span>
-                          Comprá, enviá y guardá tus cryptos de manera segura y sin comisiones.
+                          Comprá, enviá y guardá tus cryptos.
                       </span>
                   </header>
                   <main>
@@ -183,7 +183,7 @@ const sendMail = async (req, res, mail) => {
                         margin: 0;
                     }
                     span{
-                        color: #f6f6f6;
+                        color: #ffb300;
                         font-weight: bold;
                         width: 50%;
                     }
@@ -192,12 +192,12 @@ const sendMail = async (req, res, mail) => {
                         background-color: #161616;
                     }
                     p{
-                        color: #f6f6f6;
+                        color: #4f46e5;
                         font-weight: bold;
                         width: 60%;
-                        margin: 5rem auto;
+                        margin: 3rem auto;
                         font-size: 1.5rem;
-                        line-height: 2rem;
+                        line-height: 1.5rem;
                     }
                     p>a{
                         color: #ffb300;
@@ -245,10 +245,10 @@ const sendMail = async (req, res, mail) => {
              </g>
             </svg>
                     <h1>
-                        DEVCOIN
+                        DevCoin.
                     </h1>
                     <span>
-                        Comprá, enviá y guardá tus cryptos de manera segura y sin comisiones.
+                        Comprá, enviá y guardá tus cryptos.
                     </span>
                 </header>
                 <main>
