@@ -3,6 +3,38 @@ const transactionsController = {};
 const { Coins } = require("../models/coins.model");
 const { Wallet } = require("../models/wallet.model");
 
+const getSymbol = (coin_id) => {
+  const response = Coins.findOne({ where: { coin_id: coin_id } })
+      .then((data) => {
+        return data.dataValues.symbol;
+      })
+      .catch((error) => {
+        const res = { error: true, message: error };
+        return res;
+      });
+    return response;
+}
+
+const getTransactions = async (data) => {
+  let transactionArray = [];
+  for (const Element of data) {
+    let transactionModel = {
+          sender_hexcode: '',
+          receiver_hexcode: '',
+          amount: '',
+          symbol : '',
+          transaction_date: ''
+        }
+    transactionModel.sender_hexcode = Element.dataValues.sender_hexcode;
+    transactionModel.receiver_hexcode = Element.dataValues.receiver_hexcode;
+    transactionModel.amount = Element.dataValues.amount;
+    transactionModel.symbol = await getSymbol(Element.dataValues.coinId);
+    transactionModel.transaction_date = Element.dataValues.transaction_date;
+    transactionArray.push(transactionModel);
+  }
+  return transactionArray;
+}
+
 //OBTIENE TODAS LAS TRANSACCIONES
 
 transactionsController.getAllTransactions = async (req, res) => {
@@ -211,29 +243,26 @@ transactionsController.createTransaction = async (req, res) => {
 transactionsController.getAllByUserCode = async (req, res) => {
   try {
     const { hexcode } = req.params;
+
     const response = await Transaction.findAll({
       where: { sender_hexcode: hexcode },
+    }).then(async (data) => {
+      return {data: await getTransactions(data)}
+    }).catch(err => {
+      console.log(err);
     })
-      .then((data) => {
-        const res = { error: false, data: data };
-        return res;
-      })
-      .catch((error) => {
-        const res = { error: true, message: error };
-        return res;
-      });
+
+    console.log(response);
     const aux = await Transaction.findAll({
       where: { receiver_hexcode: hexcode },
+    }).then(async (data) => {
+      return {data: await getTransactions(data)}
+    }).catch(err => {
+      console.log(err);
     })
-      .then((data) => {
-        const res = { error: false, data: data };
-        return res;
-      })
-      .catch((error) => {
-        const res = { error: true, message: error };
-        return res;
-      });
+
     res.json({ emisor: response, receptor: aux });
+
   } catch (err) {
     console.log(err);
   }

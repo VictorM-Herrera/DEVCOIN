@@ -158,24 +158,23 @@ coinsController.getAllCoins = async (req, res) => {
   res.json(response);
 };
 
-//no sirve mas:
-coinsController.getByCoinSymbol = async (req, res) => {
-  try {
-    const { symbol } = req.params;
-    const response = await Coins.findOne({ where: { symbol: symbol } })
-      .then((data) => {
-        const res = { error: false, data: data };
-        return res;
-      })
-      .catch((error) => {
-        const res = { error: true, message: error };
-        return res;
-      });
-    res.json(response);
-  } catch (e) {
-    console.log(e);
-  }
-};
+// coinsController.getSymbolByCoinId = async (req, res) => {
+//   try {
+//     const { coin_id } = req.params;
+//     const response = await Coins.findOne({ where: { coin_id: coin_id } })
+//       .then((data) => {
+//         const res = { symbol: data.dataValues.symbol };
+//         return res;
+//       })
+//       .catch((error) => {
+//         const res = { error: true, message: error };
+//         return res;
+//       });
+//     res.json(response);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
 
 //vender monedas:
 
