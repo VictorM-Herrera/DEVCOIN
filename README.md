@@ -48,7 +48,7 @@ https://github.com/JRobuschi/DEVCOIN.git
 `npm start`
 ### Relationship of the tables
 
-![]("https://user-images.githubusercontent.com/96081496/216461293-30d8fe94-1eee-4926-bac6-3d6b757dbf29.png">)
+![Tables]("https://user-images.githubusercontent.com/96081496/216461293-30d8fe94-1eee-4926-bac6-3d6b757dbf29.png">)
 
 ### How to use the api
 
