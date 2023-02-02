@@ -4,6 +4,11 @@ const { Coins } = require("../models/coins.model");
 const { Wallet } = require("../models/wallet.model");
 const coinsController = {};
 
+/**
+ * Esta funcion sirve para obtener el id de la billetera segun el codigo hexadecimal del usuario
+ * @param req, contiene el body de la peticion con el codigo hexadecimal
+ * @returns id de la billetera
+ */
 const findWalletId = async (req, res) => {
   const walletId = Wallet.findOne({
     where: { hexacode_user: req.body.hexacode },
@@ -13,6 +18,11 @@ const findWalletId = async (req, res) => {
   return walletId;
 };
 
+/**
+ * Esta funcion sirve para obtener el balance de la billetera segun el codigo hexadecimal del usuario
+ * @param req, contiene el body de la peticion con el codigo hexadecimal
+ * @returns balance de la billetera
+ */
 const findWalletBalance = async (req, res) => {
   const walletBalance = Wallet.findOne({
     where: { hexacode_user: req.body.hexacode },
@@ -22,6 +32,12 @@ const findWalletBalance = async (req, res) => {
   return walletBalance;
 };
 
+/**
+ * Esta funcion sirve para actualizar el balance de la billetera segun el codigo hexadecimal asociado a esta.
+ * @param req, contiene el body de la peticion con el codigo hexadecimal
+ * @param total, contiene el nuevo balance
+ * @returns 1 si hay cambios realiados, 2 si no se cambio nada
+ */
 const updateWalletBalance = async (req, res, total) => {
   const updateWallet = Wallet.update(
     { balance: total },
@@ -32,41 +48,47 @@ const updateWalletBalance = async (req, res, total) => {
   return updateWallet;
 };
 
+/**
+ * Esta funcion verifica que el balance no sea menor al monto a gastar y realiza los calculos correpondientes para actualizar el balance
+ * @param req, contiene el body de la peticion
+ * @returns flag, true si no hubo ningun problema, y false si el saldo es insuficiente
+ */
+const handleBalance = async  (req,res) => {
+  let flag = true;
+  const walletBalance = await findWalletBalance(req, res);
+    //comprueba si hay saldo
+    if (walletBalance < req.body.total) {
+      flag = false;//coloca el valor de flag en false, indicando que hay error
+      res.status(409).json({ message: "Saldo insuficiente" });
+    } else {
+    //si hay saldo:
+      let total = parseFloat(walletBalance) - parseFloat(req.body.total);
+      updateWalletBalance(req, res, total);
+    }
+
+    return flag;
+}
+
+
 coinsController.createCoins = async (req, res) => {
   try {
     let flag = true;
     const walletId = await findWalletId(req, res);
     const aux = await Coins.findOne({
       where: { symbol: req.body.symbol, walletId: walletId },
-    }).then(async (data) => {
+    }).then(async (data) => { 
+      //SI LA MONEDA EXISTE
       if (data) {
-        //SI LA MONEDA EXISTE
-        const walletBalance = await findWalletBalance(req, res);
-        if (walletBalance < req.body.total) {
-          flag = false;
-          res.status(409).json({ message: "Saldo insuficiente" });
-        } else {
-          let total = parseFloat(walletBalance) - parseFloat(req.body.total);
-          console.log(
-            "(YA EXISTE) Se resta " +
-              req.body.total +
-              " a " +
-              walletBalance +
-              " y da como resultado: " +
-              total
-          );
-          updateWalletBalance(req, res, total);
-        }
-        if (flag !== false) {
-          const addAmount =
-            parseFloat(data.dataValues.amount) + parseFloat(req.body.amount);
-          const add = await Coins.update(
-            { amount: addAmount },
+        //
+        flag = handleBalance(req,res);//verifica si tiene saldo suficiente y lo actializa si es cierto
+        //
+        if (flag !== false) { //si no hay ningun error:
+          const addAmount = parseFloat(data.dataValues.amount) + parseFloat(req.body.amount);
+          const add = await Coins.update({ amount: addAmount },
             {
               where: { coin_id: data.dataValues.coin_id },
             }
-          )
-            .then((data) => {
+          ).then((data) => {
               const res = { data: data, message: "Saldo actualizado" };
               return res;
             })
@@ -86,22 +108,7 @@ coinsController.createCoins = async (req, res) => {
           walletId: walletId,
         };
         //ACA VA LA VERIFICACION DEL SALDO (WALLET):
-        const walletBalance = await findWalletBalance(req, res);
-        if (walletBalance < req.body.total) {
-          flag = false;
-          res.status(409).json({ message: "Saldo insuficiente" });
-        } else {
-          let total = parseFloat(walletBalance) - parseFloat(req.body.total);
-          console.log(
-            "(SE CREA LA COIN) Se resta " +
-              req.body.total +
-              " a " +
-              walletBalance +
-              " y da como resultado: " +
-              total
-          );
-          updateWalletBalance(req, res, total);
-        }
+        flag = handleBalance(req,res);
         if (flag !== false) {
           const response = await Coins.create(modelCoin)
             .then(async (data) => {
@@ -151,24 +158,23 @@ coinsController.getAllCoins = async (req, res) => {
   res.json(response);
 };
 
-//no sirve mas:
-coinsController.getByCoinSymbol = async (req, res) => {
-  try {
-    const { symbol } = req.params;
-    const response = await Coins.findOne({ where: { symbol: symbol } })
-      .then((data) => {
-        const res = { error: false, data: data };
-        return res;
-      })
-      .catch((error) => {
-        const res = { error: true, message: error };
-        return res;
-      });
-    res.json(response);
-  } catch (e) {
-    console.log(e);
-  }
-};
+// coinsController.getSymbolByCoinId = async (req, res) => {
+//   try {
+//     const { coin_id } = req.params;
+//     const response = await Coins.findOne({ where: { coin_id: coin_id } })
+//       .then((data) => {
+//         const res = { symbol: data.dataValues.symbol };
+//         return res;
+//       })
+//       .catch((error) => {
+//         const res = { error: true, message: error };
+//         return res;
+//       });
+//     res.json(response);
+//   } catch (e) {
+//     console.log(e);
+//   }
+// };
 
 //vender monedas:
 
