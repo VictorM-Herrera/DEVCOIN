@@ -67,7 +67,7 @@ https://documenter.getpostman.com/view/24230992/2s8ZDcyemU#af3adb58-0334-4511-9d
 ### Flowcharts
 
  Users <br>
- ![Screenshot 2023-02-02 at 19 02 20](https://user-images.githubusercontent.com/96081496/216462492-71fe9451-b5ce-495c-b23c-ce25d1693704.png)
+![Screenshot 2023-02-02 at 20 53 48](https://user-images.githubusercontent.com/96081496/216477467-3b43a4c2-e501-4307-9f4c-f456f0b5c797.png)
 
  Coins and Transactions <br>
 ![Screenshot 2023-02-02 at 19 02 09](https://user-images.githubusercontent.com/96081496/216462636-20f6167d-efa7-4758-b234-cd4a9301ccdc.png)
