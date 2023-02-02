@@ -2,13 +2,16 @@
 
 This is an API created with Javascript and stored in Railway for the application. https://dev-coin.web.app/.
 
+
 ### Api Link
 
 https://devcoin-production.up.railway.app
 
+
 ### App Repository
 
 https://github.com/lautaroRocha/devCoin-front
+
 
 ### Used technologies
 
@@ -25,6 +28,7 @@ https://github.com/lautaroRocha/devCoin-front
 | ✅ Jsonwebtoken | Generates a unique token for each user to log in and navigate the page      |
 | ✅ Nodemailer   | Send emails to verify accounts and recover passwords                        |
 
+
 ### Functionalities
 
 - Register and log in
@@ -32,6 +36,7 @@ https://github.com/lautaroRocha/devCoin-front
 - Buy and Sell Cryptocurrencies
 - Send and Receive Cryptocurrencies between users
 - Converter between different cryptocurrencies
+
 
 ### Getting Started
 
@@ -46,15 +51,29 @@ https://github.com/JRobuschi/DEVCOIN.git
 👉 Run the app:
 
 `npm start`
+
+
 ### Relationship of the tables
 
-<img width="1071" alt="Screenshot 2023-02-02 at 19 07 16" src="https://user-images.githubusercontent.com/96081496/216461802-99b5500c-26c9-4e84-9018-02a16452015c.png">
+<img width="1202" alt="Screenshot 2023-02-02 at 19 18 03" src="https://user-images.githubusercontent.com/96081496/216462141-945dd05e-f1ca-4f05-abc8-2f2d1e1e2d0c.png">
 
 
 ### How to use the api
 
 Everything you need is in the POSTMAN :
 https://documenter.getpostman.com/view/24230992/2s8ZDcyemU#af3adb58-0334-4511-9d21-7e20c1f86a0a
+
+
+### Flowcharts
+ Users
+ ![Screenshot 2023-02-02 at 19 02 20](https://user-images.githubusercontent.com/96081496/216462492-71fe9451-b5ce-495c-b23c-ce25d1693704.png)
+
+Coins and Transactions
+![Screenshot 2023-02-02 at 19 02 09](https://user-images.githubusercontent.com/96081496/216462636-20f6167d-efa7-4758-b234-cd4a9301ccdc.png)
+
+Non-Users
+![Screenshot 2023-02-02 at 19 01 56](https://user-images.githubusercontent.com/96081496/216462769-2d1660c6-fc41-4978-a80e-f315bd7c2900.png)
+
 
 ### Contact Us
 
