@@ -30,8 +30,8 @@ const sendMail = async (req, res, mail) => {
       <![endif]-->
       
       </head>
-      <body>
-          <table style="text-align: center; background-color:#212121; font-family:ystem-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; max-width:705px">
+      <body style="width:100%">
+          <table style="text-align: center; background-color:#212121; font-family:ystem-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; margin-left:auto; margin-right:auto; max-width:750px;">
               <thead>
                   <img src="https://imageup.me/images/ef45e786-dc1e-492c-97a5-f1367c244ad6.png" alt="">
               </thead>
@@ -88,8 +88,8 @@ const sendMail = async (req, res, mail) => {
       </noscript> 
       <![endif]-->
       </head>
-      <body>
-          <table style="text-align: center; background-color:#212121; font-family:ystem-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; max-width:705px">
+      <body style="width:100%">
+          <table style="text-align: center; background-color:#212121; font-family:ystem-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif; margin-left:auto; margin-right:auto; max-width:705px;">
               <thead>
                   <img src="https://imageup.me/images/ef45e786-dc1e-492c-97a5-f1367c244ad6.png" alt="">
               </thead>
