@@ -6,7 +6,7 @@ const { ValidateCoins } = require("../models/coins.model");
 
 coins.get("/", coinsController.getAllCoins);
 coins.post("/", [ValidateCoins], coinsController.createCoins);
-coins.get("/:symbol", coinsController.getByCoinSymbol);
+// coins.get("/:coin_id", coinsController.getSymbolByCoinId);
 coins.put("/", coinsController.sellCoins);
 
 module.exports = coins;
