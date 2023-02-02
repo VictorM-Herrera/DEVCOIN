@@ -65,13 +65,14 @@ https://documenter.getpostman.com/view/24230992/2s8ZDcyemU#af3adb58-0334-4511-9d
 
 
 ### Flowcharts
- ##Users
+
+ ###Users
  ![Screenshot 2023-02-02 at 19 02 20](https://user-images.githubusercontent.com/96081496/216462492-71fe9451-b5ce-495c-b23c-ce25d1693704.png)
 
-##Coins and Transactions
+ ###Coins and Transactions
 ![Screenshot 2023-02-02 at 19 02 09](https://user-images.githubusercontent.com/96081496/216462636-20f6167d-efa7-4758-b234-cd4a9301ccdc.png)
 
-##Non-Users
+ ###Non-Users
 ![Screenshot 2023-02-02 at 19 01 56](https://user-images.githubusercontent.com/96081496/216462769-2d1660c6-fc41-4978-a80e-f315bd7c2900.png)
 
 
