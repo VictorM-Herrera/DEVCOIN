@@ -48,6 +48,27 @@ const updateWalletBalance = async (req, res, total) => {
   return updateWallet;
 };
 
+/**
+ * Esta funcion verifica que el balance no sea menor al monto a gastar y realiza los calculos correpondientes para actualizar el balance
+ * @param req, contiene el body de la peticion
+ * @returns flag, true si no hubo ningun problema, y false si el saldo es insuficiente
+ */
+const handleBalance = async  (req,res) => {
+  let flag = true;
+  const walletBalance = await findWalletBalance(req, res);
+    //comprueba si hay saldo
+    if (walletBalance < req.body.total) {
+      flag = false;//coloca el valor de flag en false, indicando que hay error
+      res.status(409).json({ message: "Saldo insuficiente" });
+    } else {
+    //si hay saldo:
+      let total = parseFloat(walletBalance) - parseFloat(req.body.total);
+      updateWalletBalance(req, res, total);
+    }
+
+    return flag;
+}
+
 
 coinsController.createCoins = async (req, res) => {
   try {
@@ -58,16 +79,9 @@ coinsController.createCoins = async (req, res) => {
     }).then(async (data) => { 
       //SI LA MONEDA EXISTE
       if (data) {
-        const walletBalance = await findWalletBalance(req, res);
-        //comprueba si hay saldo
-        if (walletBalance < req.body.total) {
-          flag = false;//coloca el valor de flag en false, indicando que hay error
-          res.status(409).json({ message: "Saldo insuficiente" });
-        } else {
-          //si hay saldo:
-          let total = parseFloat(walletBalance) - parseFloat(req.body.total);
-          updateWalletBalance(req, res, total);
-        }
+        //
+        flag = handleBalance(req,res);//verifica si tiene saldo suficiente y lo actializa si es cierto
+        //
         if (flag !== false) { //si no hay ningun error:
           const addAmount = parseFloat(data.dataValues.amount) + parseFloat(req.body.amount);
           const add = await Coins.update({ amount: addAmount },
@@ -94,15 +108,7 @@ coinsController.createCoins = async (req, res) => {
           walletId: walletId,
         };
         //ACA VA LA VERIFICACION DEL SALDO (WALLET):
-        const walletBalance = await findWalletBalance(req, res);
-        if (walletBalance < req.body.total) {
-          flag = false;
-          res.status(409).json({ message: "Saldo insuficiente" });
-        } else {
-          let total = parseFloat(walletBalance) - parseFloat(req.body.total);
-          updateWalletBalance(req, res, total);
-        }
-        
+        flag = handleBalance(req,res);
         if (flag !== false) {
           const response = await Coins.create(modelCoin)
             .then(async (data) => {
