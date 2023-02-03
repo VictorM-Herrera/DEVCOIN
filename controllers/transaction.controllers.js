@@ -251,8 +251,6 @@ transactionsController.getAllByUserCode = async (req, res) => {
     }).catch(err => {
       console.log(err);
     })
-
-    console.log(response);
     const aux = await Transaction.findAll({
       where: { receiver_hexcode: hexcode },
     }).then(async (data) => {
